@@ -45,3 +45,6 @@ win32 {
 macx {
     cache()
 }
+
+DISTFILES += \
+    src/test.txt
