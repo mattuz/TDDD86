@@ -10,14 +10,14 @@
 #include <string>
 using namespace std;
 
-void setGridValue(Grid<char> grid, int row, int column, string line);
+void setGridValue(Grid<char>& grid, int row, int column, string line);
 
 int main() {
     string filename;
     string line;
     int row = 1;
     int column;
-    Grid<char> myGrid = Grid<char>();
+    Grid<char> myGrid;
 
 
     cout << "Welcome to the TDDD86  Game of Life, \n"
@@ -50,27 +50,28 @@ int main() {
                 currentline >> column;
             }
         }
-        myGrid.resize(row, column);
+        myGrid.resize(row, column);             //Resize the grid when we know the amount of rows/columns.
         for (int i = 0; i < row; i++)
         {
             getline(myfile, line);
             setGridValue(myGrid, i, column, line);
-            //cout << line << '\n';
+            cout << '\n';
         }
     }
 
     cout << row << '\n' << column << '\n';
 
-   // cout << myGrid.toString() << '\n';
+    cout << myGrid.toString() << '\n';
 
     return 0;
 }
 
-void setGridValue(Grid<char> grid, int row, int column, string line) {
+void setGridValue(Grid<char>& grid, int row, int column, string line) {
     for (int i = 0; i < column; i ++)
     {
-        cout << line[i] << '\n';
-        grid.set(row, i, line[i]);
+        char symbol = line[i];
+        cout << symbol;
+        grid.set(row, i, symbol);
     }
 }
 
