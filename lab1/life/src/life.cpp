@@ -11,10 +11,14 @@
 using namespace std;
 
 void setGridValue(Grid<char>& grid, int row, int column, string line);
+void printCurrentGrid(Grid<char>& grid);
+void nextAction(string answer);
+
 
 int main() {
     string filename;
     string line;
+    string option;
     int row = 1;
     int column;
     Grid<char> myGrid;
@@ -28,8 +32,7 @@ int main() {
                  "- Locations with 3 neighbours will create life.\n"
                  "- A cell with 4 or more neighbours dies. \n"
                  "\n"
-                 "Grid input file name? "
-                 << endl;
+                 "Grid input file name? ";
     cin >> filename;
 
     ifstream myfile(filename);
@@ -55,13 +58,13 @@ int main() {
         {
             getline(myfile, line);
             setGridValue(myGrid, i, column, line);
-            cout << '\n';
         }
     }
+    printCurrentGrid(myGrid);
 
-    cout << row << '\n' << column << '\n';
-
-    cout << myGrid.toString() << '\n';
+    cout << "a)nimate, t)ick, q)uit? ";
+    cin >> option;
+    nextAction(option);
 
     return 0;
 }
@@ -69,9 +72,46 @@ int main() {
 void setGridValue(Grid<char>& grid, int row, int column, string line) {
     for (int i = 0; i < column; i ++)
     {
-        char symbol = line[i];
-        cout << symbol;
-        grid.set(row, i, symbol);
+        grid.set(row, i, line[i]);
+    }
+}
+
+void printCurrentGrid(Grid<char>& grid) {           //prints out the current grid withouth changing it.
+    for (int row = 0; row < grid.numRows(); row ++)
+    {
+        if (row > 0)
+        {
+            cout << '\n';
+        }
+        for (int column = 0; column < grid.numCols(); column++)
+        {
+            cout << grid[row][column];
+        }
+    }
+    cout << '\n';
+}
+
+void gridChecker(Grid<char>& grid) {
+
+}
+
+void nextAction(string answer) {
+    if (answer == "a") //animate
+    {
+    }
+    else if (answer == "t") //tick
+    {
+    }
+    else if (answer == "q") //quit
+    {
+        cout << "Have a nice life :)" << endl;
+    }
+    else
+    {
+        cout << "\nPlease enter a valid option: ";
+        cin >> answer;
+        nextAction(answer);
+
     }
 }
 
