@@ -4,14 +4,21 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "grid.h"
 #include "lifeutil.h"
 #include <string>
 using namespace std;
 
+void setGridValue(Grid<char> grid, int row, int column, string line);
+
 int main() {
     string filename;
     string line;
+    int row = 1;
+    int column;
+    Grid<char> myGrid = Grid<char>();
+
 
     cout << "Welcome to the TDDD86  Game of Life, \n"
                  "a simulation of the lifecycle of a bacteria colony. \n"
@@ -29,31 +36,43 @@ int main() {
 
     if (myfile.is_open())
     {
-        while (getline(myfile, line))
+        for (int i = 0; i < 2; i++)             //Reads the first two lines and converts them to row/column integers
         {
-           cout << line << '\n';
-        }
-        /*int row;
-        int column;
-        for (int i = 0; i<2; i++)
-        {
+            getline(myfile, line);
             if (i == 0)
             {
-                row =
+                stringstream currentline(line);
+                currentline >> row;
             }
             else
             {
-
+                stringstream currentline(line);
+                currentline >> column;
             }
-        }*/
-        //cout << "Hello :)" << endl;
-
-        myfile.close();
+        }
+        myGrid.resize(row, column);
+        for (int i = 0; i < row; i++)
+        {
+            getline(myfile, line);
+            setGridValue(myGrid, i, column, line);
+            //cout << line << '\n';
+        }
     }
 
+    cout << row << '\n' << column << '\n';
 
+   // cout << myGrid.toString() << '\n';
 
     return 0;
 }
+
+void setGridValue(Grid<char> grid, int row, int column, string line) {
+    for (int i = 0; i < column; i ++)
+    {
+        cout << line[i] << '\n';
+        grid.set(row, i, line[i]);
+    }
+}
+
 
 
