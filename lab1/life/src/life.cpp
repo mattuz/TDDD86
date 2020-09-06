@@ -14,7 +14,8 @@ void setGridValue(Grid<char>& grid, int row, int column, string line);
 void printCurrentGrid(Grid<char>& grid);
 void nextAction(string answer, Grid<char> &grid, int row, int column);
 void evolve(Grid<char>& grid, int column, int row);
-void animate();
+void animate(Grid<char>& grid, int row, int column);
+void printWelcome();
 
 int main() {
     string filename;
@@ -91,23 +92,23 @@ void printCurrentGrid(Grid<char>& grid) {           //prints out the current gri
     }
     cout << '\n';
 }
-/*
-void gridChecker(Grid<char>& grid) {
 
-}*/
 
 void nextAction(string answer, Grid<char>& grid, int row, int column) {
     if (answer == "a") //animate
     {
+        animate(grid, row, column);
+        cout << "a)nimate, t)ick, q)uit? ";
+        cin >> answer;
+        nextAction(answer, grid, row, column);
     }
     else if (answer == "t") //tick
     {
         evolve(grid, column, row);
         printCurrentGrid(grid);
         cout << "a)nimate, t)ick, q)uit? ";
-        string newanswer;
-        cin >> newanswer;
-        nextAction(newanswer, grid, row, column);
+        cin >> answer;
+        nextAction(answer, grid, row, column);
     }
     else if (answer == "q") //quit
     {
@@ -152,9 +153,12 @@ void evolve(Grid<char>& grid, int column, int row){
     grid = newgrid;
 }
 
-void animate(){
-
+void animate(Grid<char>& grid, int row, int column){
+    for(int i=0; i<40; i++){
+        clearConsole();
+        evolve(grid, column, row);
+        printCurrentGrid(grid);
+        pause(100);
+        clearConsole();
+    }
 }
-
-
-
