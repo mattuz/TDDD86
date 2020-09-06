@@ -12,8 +12,9 @@ using namespace std;
 
 void setGridValue(Grid<char>& grid, int row, int column, string line);
 void printCurrentGrid(Grid<char>& grid);
-void nextAction(string answer);
-
+void nextAction(string answer, Grid<char> &grid, int row, int column);
+void evolve(Grid<char>& grid, int column, int row);
+void animate();
 
 int main() {
     string filename;
@@ -64,7 +65,7 @@ int main() {
 
     cout << "a)nimate, t)ick, q)uit? ";
     cin >> option;
-    nextAction(option);
+    nextAction(option, myGrid, row, column);
 
     return 0;
 }
@@ -90,17 +91,23 @@ void printCurrentGrid(Grid<char>& grid) {           //prints out the current gri
     }
     cout << '\n';
 }
-
+/*
 void gridChecker(Grid<char>& grid) {
 
-}
+}*/
 
-void nextAction(string answer) {
+void nextAction(string answer, Grid<char>& grid, int row, int column) {
     if (answer == "a") //animate
     {
     }
     else if (answer == "t") //tick
     {
+        evolve(grid, column, row);
+        printCurrentGrid(grid);
+        cout << "a)nimate, t)ick, q)uit? ";
+        string newanswer;
+        cin >> newanswer;
+        nextAction(newanswer, grid, row, column);
     }
     else if (answer == "q") //quit
     {
@@ -110,9 +117,43 @@ void nextAction(string answer) {
     {
         cout << "\nPlease enter a valid option: ";
         cin >> answer;
-        nextAction(answer);
+        nextAction(answer, grid, row, column);
 
     }
+}
+
+void evolve(Grid<char>& grid, int column, int row){
+    Grid<char>newgrid = Grid<char>(row, column);
+    for(int x=0; x<row; x++){
+        for(int y=0; y<column; y++){
+
+            int neighbours=0;
+            for(int i=-1; i<2; i++){
+                for(int j=-1; j<2; j++){
+                    if(grid.inBounds(x+i, y+j) && grid.get(x+i,y+j)=='X'){
+                        neighbours++;
+                    }
+                }
+            }
+            if(grid[x][y] == 'X'){
+                neighbours--;}
+
+            if(neighbours == 3){
+                newgrid[x][y] = 'X';
+            }
+            else if(neighbours==2){
+                newgrid[x][y] = grid[x][y];
+            }
+            else if(neighbours<2 || neighbours>3){
+                newgrid[x][y] = '-';
+            }
+        }
+    }
+    grid = newgrid;
+}
+
+void animate(){
+
 }
 
 
