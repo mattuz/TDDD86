@@ -11,11 +11,11 @@
 using namespace std;
 
 void setGridValue(Grid<char>& grid, int row, int column, string line);
-void printCurrentGrid(Grid<char>& grid);
+void printCurrentGrid(const Grid<char>& grid);
 void nextAction(string answer, Grid<char> &grid, int row, int column);
 void evolve(Grid<char>& grid, int column, int row);
 void animate(Grid<char>& grid, int row, int column);
-void printWelcome();
+int countNeighbours(const Grid<char>& grid, int x, int y);
 
 int main() {
     string filename;
@@ -81,7 +81,7 @@ void setGridValue(Grid<char>& grid, int row, int column, string line) {
 }
 
 // Prints out the current grid withouth changing it.
-void printCurrentGrid(Grid<char>& grid) {
+void printCurrentGrid(const Grid<char>& grid) {
     for (int row = 0; row < grid.numRows(); row ++)
     {
         if (row > 0)
@@ -133,19 +133,10 @@ void nextAction(string answer, Grid<char>& grid, int row, int column) {
 void evolve(Grid<char>& grid, int column, int row){
     Grid<char>newgrid = Grid<char>(row, column);
     for(int x = 0; x < row; x++){
-        for(int y=0; y < column; y++){
+        for(int y = 0; y < column; y++){
 
-            int neighbours = 0;
-            for(int i = -1; i < 2; i++){
-                for(int j = -1; j < 2; j++){
-                    if(grid.inBounds(x + i, y + j) && grid.get(x + i, y + j) == 'X'){
-                        neighbours++;
-                    }
-                }
-            }
-            if (grid[x][y] == 'X'){
-                neighbours--;
-            }
+            int neighbours = countNeighbours(grid, x, y);
+
             if (neighbours == 3){
                 newgrid[x][y] = 'X';
             }
@@ -158,6 +149,21 @@ void evolve(Grid<char>& grid, int column, int row){
         }
     }
     grid = newgrid;
+}
+//Counts the amount of neighbours surrounding a cell.
+int countNeighbours(const Grid<char>& grid, int x, int y) {
+    int neighbours = 0;
+    for(int i = -1; i < 2; i++){
+        for(int j = -1; j < 2; j++){
+            if(grid.inBounds(x + i, y + j) && grid.get(x + i, y + j) == 'X'){
+                neighbours++;
+            }
+        }
+    }
+    if (grid[x][y] == 'X'){
+        neighbours--;
+    }
+    return neighbours;
 }
 
 // Creates an animation that shows the development of the colony,
