@@ -1,6 +1,6 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+// This file contains the preogram Game of life
+// which is a simulation of the development of
+// a bacteria colony.
 
 #include <iostream>
 #include <fstream>
@@ -71,6 +71,7 @@ int main() {
     return 0;
 }
 
+// Creates a grid correspondig to the one in the provided text file.
 void setGridValue(Grid<char>& grid, int row, int column, string line) {
     for (int i = 0; i < column; i ++)
     {
@@ -78,7 +79,8 @@ void setGridValue(Grid<char>& grid, int row, int column, string line) {
     }
 }
 
-void printCurrentGrid(Grid<char>& grid) {           //prints out the current grid withouth changing it.
+// Prints out the current grid withouth changing it.
+void printCurrentGrid(Grid<char>& grid) {
     for (int row = 0; row < grid.numRows(); row ++)
     {
         if (row > 0)
@@ -93,7 +95,7 @@ void printCurrentGrid(Grid<char>& grid) {           //prints out the current gri
     cout << '\n';
 }
 
-
+// Moves the program forward in one of four directions depending on the given answer from the user.
 void nextAction(string answer, Grid<char>& grid, int row, int column) {
     if (answer == "a") //animate
     {
@@ -119,10 +121,14 @@ void nextAction(string answer, Grid<char>& grid, int row, int column) {
         cout << "\nPlease enter a valid option: ";
         cin >> answer;
         nextAction(answer, grid, row, column);
-
     }
 }
 
+// Changes the grid to contain the next generation of bacteria based on 4 rules:
+// A cell with 1 or fewer neighbours dies.
+// Locations with 2 neighbours remain stable.
+// Locations with 3 neighbours will create life.
+// A cell with 4 or more neighbours dies.
 void evolve(Grid<char>& grid, int column, int row){
     Grid<char>newgrid = Grid<char>(row, column);
     for(int x=0; x<row; x++){
@@ -153,6 +159,8 @@ void evolve(Grid<char>& grid, int column, int row){
     grid = newgrid;
 }
 
+// Creates an animation that shows the development of the colony,
+// 40 generations on from when it is called.
 void animate(Grid<char>& grid, int row, int column){
     for(int i=0; i<40; i++){
         clearConsole();
