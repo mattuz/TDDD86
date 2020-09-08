@@ -62,6 +62,7 @@ int main() {
             setGridValue(myGrid, i, column, line);
         }
     }
+    myfile.close();
     printCurrentGrid(myGrid);
 
     cout << "a)nimate, t)ick, q)uit? ";
@@ -131,27 +132,27 @@ void nextAction(string answer, Grid<char>& grid, int row, int column) {
 // A cell with 4 or more neighbours dies.
 void evolve(Grid<char>& grid, int column, int row){
     Grid<char>newgrid = Grid<char>(row, column);
-    for(int x=0; x<row; x++){
-        for(int y=0; y<column; y++){
+    for(int x = 0; x < row; x++){
+        for(int y=0; y < column; y++){
 
-            int neighbours=0;
-            for(int i=-1; i<2; i++){
-                for(int j=-1; j<2; j++){
-                    if(grid.inBounds(x+i, y+j) && grid.get(x+i,y+j)=='X'){
+            int neighbours = 0;
+            for(int i = -1; i < 2; i++){
+                for(int j = -1; j < 2; j++){
+                    if(grid.inBounds(x + i, y + j) && grid.get(x + i, y + j) == 'X'){
                         neighbours++;
                     }
                 }
             }
-            if(grid[x][y] == 'X'){
-                neighbours--;}
-
-            if(neighbours == 3){
+            if (grid[x][y] == 'X'){
+                neighbours--;
+            }
+            if (neighbours == 3){
                 newgrid[x][y] = 'X';
             }
-            else if(neighbours==2){
+            else if (neighbours == 2){
                 newgrid[x][y] = grid[x][y];
             }
-            else if(neighbours<2 || neighbours>3){
+            else if(neighbours < 2 || neighbours > 3){
                 newgrid[x][y] = '-';
             }
         }
@@ -167,6 +168,6 @@ void animate(Grid<char>& grid, int row, int column){
         evolve(grid, column, row);
         printCurrentGrid(grid);
         pause(100);
-        //clearConsole();               //tror inte att denna ska vara med, då försvinner ju grid tills man väljer något igen.
+        clearConsole();
     }
 }
