@@ -159,6 +159,6 @@ void animate(Grid<char>& grid, int row, int column){
         evolve(grid, column, row);
         printCurrentGrid(grid);
         pause(100);
-        clearConsole();
+        //clearConsole();               //tror inte att denna ska vara med, då försvinner ju grid tills man väljer något igen.
     }
 }
