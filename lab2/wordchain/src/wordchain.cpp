@@ -44,12 +44,13 @@ void wordChain(const string& w1, const string& w2, const set<string>& dictionary
     queue<stack<string>> chains;
     stack<string> stack1;
     set<string> usedWords;
-
+    usedWords.insert(w1);
     stack1.push(w1);
     chains.push(stack1);
 
     while(!chains.empty())
     {
+        cout << "go! " <<endl;
         stack<string> currentStack = chains.front();
         chains.pop();
         if (currentStack.top() == w2)
@@ -70,12 +71,15 @@ void wordChain(const string& w1, const string& w2, const set<string>& dictionary
             {
                 for(int j = 0; j < ALPHABET.length(); j++)
                 {
+
                     string s (1,ALPHABET[j]);
-                    word.replace(i, 1, s);
-                    if(dictionary.count(word) == 1 && usedWords.count(word) == 0)
+                    string tempWord = word;
+                    tempWord.replace(i, 1, s);
+                    if((dictionary.count(tempWord) == 1) && (usedWords.count(tempWord) == 0))
                     {
+                        usedWords.insert(tempWord);
                         stack<string> copyStack = currentStack;
-                        copyStack.push(word);
+                        copyStack.push(tempWord);
                         chains.push(copyStack);
                     }
                 }
