@@ -19,3 +19,7 @@ int main() {
 
     return 0;
 }
+
+void wordChain(w1, w2) {
+
+}
