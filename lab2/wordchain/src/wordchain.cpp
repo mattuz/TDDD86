@@ -50,7 +50,6 @@ void wordChain(const string& w1, const string& w2, const set<string>& dictionary
 
     while(!chains.empty())
     {
-        cout << "go! " <<endl;
         stack<string> currentStack = chains.front();
         chains.pop();
         if (currentStack.top() == w2)
