@@ -67,7 +67,7 @@ int main() {
         cin >> answer;
     }
 
-
+    hangmanPlayer(guesses, answer, wordLenght, dictionary);
 
     return 0;
 }
@@ -78,20 +78,31 @@ void hangmanPlayer(const int& guesses, const string& answer, const int& wordleng
     int possibleWords = 0;
     string currentWord;
     string userGuess;
+    set<string> words = dictionary[wordlength];
 
     for(int i = 0; i < wordlength; i++)
     {
         currentWord.append("-");
     }
 
-    set<string> words = dictionary[wordlength];
-    cout << "Guesses left: " << guesses << "Already guessed letters: " << guessedLetters << "The word so far: " << currentWord;
+
+    cout << "Guesses left: " << guesses << "\nAlready guessed letters: " << guessedLetters << "\nThe word so far: " << currentWord;
 
     if(answer == "y")
     {
-        cout << "Number of possible words left: " << possibleWords;
+        cout << "\nNumber of possible words left: " << possibleWords << endl;
     }
 
-    cout << "Please guess a letter: ";
+    cout << "Guess a letter: ";
     cin >> userGuess;
+
+    while (ALPHABET.find(userGuess) == ALPHABET.npos || userGuess.length() != 1)
+    {
+        if (guessedLetters.find(userGuess) != guessedLetters.npos)
+        {
+            cout << "You have already guessed this letter." << endl;
+        }
+        cout << "Please enter a (lower case) letter from the alphabet: ";
+        cin >> userGuess;
+    }
 }
