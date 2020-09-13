@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void hangmanPlayer(const int& guesses, const string& answer, const int& wordlength, map<int, set<string>> dictionary);
+
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
 int main() {
@@ -68,4 +70,28 @@ int main() {
 
 
     return 0;
+}
+
+void hangmanPlayer(const int& guesses, const string& answer, const int& wordlength, map<int, set<string>> dictionary){
+
+    string guessedLetters;
+    int possibleWords = 0;
+    string currentWord;
+    string userGuess;
+
+    for(int i = 0; i < wordlength; i++)
+    {
+        currentWord.append("-");
+    }
+
+    set<string> words = dictionary[wordlength];
+    cout << "Guesses left: " << guesses << "Already guessed letters: " << guessedLetters << "The word so far: " << currentWord;
+
+    if(answer == "y")
+    {
+        cout << "Number of possible words left: " << possibleWords;
+    }
+
+    cout << "Please guess a letter: ";
+    cin >> userGuess;
 }
