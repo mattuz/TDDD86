@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = EvilHangman1.0.0
-DISTDIR = /home/matge373/TDDD86/lab2/build-EvilHangman-Desktop-Debug/.tmp/EvilHangman1.0.0
+DISTDIR = /home/lisgr350/Desktop/Tddd86/tddd86-ht20/lab2/build-EvilHangman-Desktop-Debug/.tmp/EvilHangman1.0.0
 LINK          = g++
 LFLAGS        = 
 LIBS          = $(SUBLIBS) -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -119,6 +119,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../evilhangman/.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -149,8 +150,8 @@ first: all
 
 $(TARGET):  $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
-	cp -r "/home/matge373/TDDD86/lab2/evilhangman/res/di.txt" "/home/matge373/TDDD86/lab2/build-EvilHangman-Desktop-Debug" 
-	 cp -r "/home/matge373/TDDD86/lab2/evilhangman/res/dictionary.txt" "/home/matge373/TDDD86/lab2/build-EvilHangman-Desktop-Debug" 
+	cp -r "/home/lisgr350/Desktop/Tddd86/tddd86-ht20/lab2/evilhangman/res/di.txt" "/home/lisgr350/Desktop/Tddd86/tddd86-ht20/lab2/build-EvilHangman-Desktop-Debug" 
+	 cp -r "/home/lisgr350/Desktop/Tddd86/tddd86-ht20/lab2/evilhangman/res/dictionary.txt" "/home/lisgr350/Desktop/Tddd86/tddd86-ht20/lab2/build-EvilHangman-Desktop-Debug" 
 	
 
 Makefile: ../evilhangman/EvilHangman.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -220,6 +221,7 @@ Makefile: ../evilhangman/EvilHangman.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -309,6 +311,7 @@ Makefile: ../evilhangman/EvilHangman.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
