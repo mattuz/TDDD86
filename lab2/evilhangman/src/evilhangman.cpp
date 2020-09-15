@@ -8,7 +8,8 @@
 using namespace std;
 
 void hangmanPlayer(const int& guesses, const string& answer, const int& wordlength, map<int, set<string>> dictionary);
-void wordFamilies(set<string>& words, string currentWord, string userGuess);
+map<string, set<string>> wordFamilies(set<string>& words, string currentWord, string userGuess);
+void biggestFamily(map<string, set<string>> allfamilies);
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
@@ -111,7 +112,7 @@ void hangmanPlayer(const int& guesses, const string& answer, const int& wordleng
     wordFamilies(words, currentWord, userGuess);
 }
 
-void wordFamilies(set<string>& words, string currentWord, string userGuess){
+map<string, set<string>> wordFamilies(set<string>& words, string currentWord, string userGuess){
     map<string, set<string>> families;
     string key = currentWord;
 
@@ -145,7 +146,24 @@ void wordFamilies(set<string>& words, string currentWord, string userGuess){
             key = currentWord;
         }
     }
-    for(map<string, set<string>>::iterator it = families.begin(); it != families.end(); ++it){
+    /*for(map<string, set<string>>::iterator it = families.begin(); it != families.end(); ++it){
         cout << it->first <<endl;
+    }*/
+    biggestFamily(families);
+    return families;
+}
+
+void biggestFamily(map<string, set<string>> allfamilies) {
+    set<string> biggestSet;
+    int size = 0;
+    for(map<string, set<string>>::iterator it = allfamilies.begin(); it != allfamilies.end(); ++it)
+    {
+    //cout << it->second.size() <<endl;
+
+    if (size < it->second.size())
+    {
+        size = it->second.size();
     }
+    }
+    cout << size;
 }
