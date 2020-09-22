@@ -7,20 +7,20 @@
 
 using namespace std;
 
-void hangmanPlayer(const int& guesses, const string& answer, const int& wordlength, map<int, set<string>> dictionary);
-map<string, set<string>> wordFamilies(set<string>& words, string currentWord, string userGuess);
-void biggestFamily(map<string, set<string>> allfamilies);
+void hangmanPlayer(const int& guesses, const string& answer, string& currentWord, set<string>& words, string& guessedLetters);
+map<string, set<string>> wordFamilies(set<string>& words, string& currentWord, string userGuess);
+void biggestFamily(map<string, set<string>>& allfamilies, string& currentWord, set<string>& words);
+bool wordFound(string currentWord);
+void gameOver(set<string> words, string currentWord, string& newGame);
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
 int main() {
+
+    string newGame = "y";
     map<int, set<string>> dictionary;
     string line;
-    int wordLength;
-    int guesses;
-    string answer;
 
-    cout << "Welcome to Hangman." << endl;
 
     ifstream dictFile("dictionary.txt");
 
@@ -44,6 +44,16 @@ int main() {
         dictFile.close();
     }
 
+    while(newGame == "y"){
+
+    string guessedLetters;
+    int wordLength;
+    int numberOfGuesses;
+    string showRemainingWords;
+    string wordSoFar;
+
+    cout << "Welcome to Hangman." << endl;
+
     cout << "Please insert word lenght: ";
     cin >> wordLength;
 
@@ -54,45 +64,82 @@ int main() {
     }
 
     cout << "Insert the number of guesses you would like: ";
-    cin >> guesses;
+    cin >> numberOfGuesses;
 
-    while (guesses < 1)
+    while (numberOfGuesses < 1)
     {
         cout << "Please insert a valid number of guesses: ";
-        cin >> guesses;
+        cin >> numberOfGuesses;
     }
 
     cout << "Would you like to see the amount of remaining words? (y/n): ";
-    cin >> answer;
+    cin >> showRemainingWords;
 
-    while (answer != "y" && answer != "n")
+    while (showRemainingWords != "y" && showRemainingWords != "n")
     {
         cout << "Please insert a valid option: ";
-        cin >> answer;
+        cin >> showRemainingWords;
     }
 
-    hangmanPlayer(guesses, answer, wordLength, dictionary);
+    set<string> fittingWords = dictionary[wordLength];
+
+    for(int i = 0; i < wordLength; i++)
+    {
+        wordSoFar.append("-");
+    }
+
+    while( numberOfGuesses > 0 && !wordFound(wordSoFar))
+    {
+        hangmanPlayer(numberOfGuesses, showRemainingWords, wordSoFar, fittingWords, guessedLetters);
+        numberOfGuesses--;
+    }
+
+    gameOver(fittingWords, wordSoFar, newGame);
+
+    }
 
     return 0;
 }
 
-void hangmanPlayer(const int& guesses, const string& answer, const int& wordlength, map<int, set<string>> dictionary){
+void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){
 
-    string guessedLetters;
-    int possibleWords = 0;
-    string currentWord;
-    string userGuess;
-    set<string> words = dictionary[wordlength];
+    string winningWord = *wordLengthWords.begin();
 
-    for(int i = 0; i < wordlength; i++)
+    if(wordFound(wordSoFar))
     {
-        currentWord.append("-");
+        cout << "Congrats, you won! The word was: " << winningWord << endl;
+    }
+    else
+    {
+    cout << "You lost, the correct word was: " << winningWord << endl;
     }
 
+    cout << "Do you want to play again? (y/n)" << endl;
+    cin >> newGame;
+}
 
-    cout << "\nGuesses left: " << guesses << "\nAlready guessed letters: " << guessedLetters << "\nThe word so far: " << currentWord;
+bool wordFound (string currentWord){
+    for(int i = 0; i < currentWord.length(); i++)
+    {
+        char a = currentWord[i];
+        if(a == '-')
+        {
+            return false;
+        }
+    }
 
-    if(answer == "y")
+    return true;
+}
+
+void hangmanPlayer(const int& numberOfGuesses, const string& showRemainingWords,
+                   string& wordSoFar, set<string>& fittingWords, string& guessedLetters){
+
+    int possibleWords = fittingWords.size();
+    string userGuess;
+
+    cout << "\nGuesses left: " << numberOfGuesses << "\nAlready guessed letters: " << guessedLetters << "\nThe word so far: " << wordSoFar;
+
+    if(showRemainingWords == "y")
     {
         cout << "\nNumber of possible words left: " << possibleWords;
     }
@@ -100,70 +147,90 @@ void hangmanPlayer(const int& guesses, const string& answer, const int& wordleng
     cout << "\nGuess a letter: ";
     cin >> userGuess;
 
-    while (ALPHABET.find(userGuess) == ALPHABET.npos || userGuess.length() != 1)
+    while (ALPHABET.find(userGuess) == ALPHABET.npos || userGuess.length() != 1 || guessedLetters.find(userGuess) != guessedLetters.npos)
     {
         if (guessedLetters.find(userGuess) != guessedLetters.npos)
         {
             cout << "You have already guessed this letter." << endl;
         }
+
         cout << "Please enter a (lower case) letter from the alphabet: ";
         cin >> userGuess;
+
     }
-    wordFamilies(words, currentWord, userGuess);
+
+    guessedLetters.append(userGuess);
+    wordFamilies(fittingWords, wordSoFar, userGuess);
+
 }
 
-map<string, set<string>> wordFamilies(set<string>& words, string currentWord, string userGuess){
-    map<string, set<string>> families;
-    string key = currentWord;
+map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoFar, string userGuess){
 
+    map<string, set<string>> wordFamilies;
+    string key = wordSoFar;
 
-    for(string word : words){                       //För all aord av rätt längd
-        if(word.find(userGuess) == word.npos){      //Om bokstaven inte finns i ordet
-            if(families.count(currentWord) == 0){
+    for(string word : fittingWords)
+    {                                               //För all aord av rätt längd
+        if(word.find(userGuess) == word.npos)
+        {                                            //Om bokstaven inte finns i ordet
+            if(wordFamilies.count(wordSoFar) == 0)
+            {
                 set<string> familySet;
                 familySet.insert(word);
-                families[currentWord] = familySet;
+                wordFamilies[wordSoFar] = familySet;
             }
-            families[currentWord].insert(word);
+
+            wordFamilies[wordSoFar].insert(word);
         }
         else                                        //Om bokstaven finns i ordet:
         {
-            for(int i = 0; i < word.length(); i++){     //Gå igenom ordet
+            for(int i = 0; i < word.length(); i++)
+            {                                        //Gå igenom ordet
                 if(word[i] == userGuess[0])         //Om en bokstav = gissningen
                 {
                     key[i] = userGuess[0];
                 }
             }
-            if(families.count(key) == 0){   //Om nyckeln inte redan finns i families
+
+            if(wordFamilies.count(key) == 0)
+            {                                      //Om nyckeln inte redan finns i families
                 set<string> familySet;
                 familySet.insert(word);
-                families[key] = familySet;  //Skapa en set med ordet och lägg in i families tsm med nyckeln
+                wordFamilies[key] = familySet;  //Skapa en set med ordet och lägg in i families tsm med nyckeln
             }
             else
             {
-                families[key].insert(word);     //Om nycken finns, lägg in ordet i dess set
+                wordFamilies[key].insert(word);     //Om nycken finns, lägg in ordet i dess set
             }
-            key = currentWord;
+
+            key = wordSoFar;
+
         }
     }
-    /*for(map<string, set<string>>::iterator it = families.begin(); it != families.end(); ++it){
-        cout << it->first <<endl;
-    }*/
-    biggestFamily(families);
-    return families;
+
+    biggestFamily(wordFamilies, wordSoFar, fittingWords);
+    return wordFamilies;
+
 }
 
-void biggestFamily(map<string, set<string>> allfamilies) {
-    set<string> biggestSet;
-    int size = 0;
-    for(map<string, set<string>>::iterator it = allfamilies.begin(); it != allfamilies.end(); ++it)
-    {
-    //cout << it->second.size() <<endl;
+void biggestFamily(map<string, set<string>>& wordFamilies, string& wordSoFar, set<string>& fittingWords) {
 
-    if (size < it->second.size())
+    map<string, set<string>> tempMap;
+    int size = 0;
+
+    for(map<string, set<string>>::iterator it = wordFamilies.begin(); it != wordFamilies.end(); ++it)
     {
-        size = it->second.size();
+        if (size < it->second.size())
+        {
+            size = it->second.size();
+            tempMap[it->first] = it->second;
+        }
     }
+
+    wordFamilies = tempMap;
+    for(map<string, set<string>>::iterator it = wordFamilies.begin(); it != wordFamilies.end(); ++it)
+    {
+        wordSoFar = it->first;
+        fittingWords = it->second;
     }
-    cout << size;
 }
