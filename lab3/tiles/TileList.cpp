@@ -9,6 +9,7 @@
 TileList::TileList()
 {
     // TODO: write this member
+    new array<Tile, 10>;
 }
 
 TileList::~TileList()
