@@ -10,7 +10,7 @@ int x = 0;
 TileList::TileList()
 {
     // TODO: write this member
-    //arrayPointer = new Tile[10];
+    arrayPointer = new Tile[10];
 }
 
 TileList::~TileList()
