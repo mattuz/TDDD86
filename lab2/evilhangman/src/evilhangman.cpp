@@ -139,7 +139,7 @@ map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoF
     map<string, set<string>> wordFamilies;
     string key = wordSoFar;
 
-    for(string word : fittingWords)
+    for(const string& word : fittingWords)
     {                                               //För all ord av rätt längd
         if(word.find(userGuess) == word.npos)       //Om bokstaven inte finns i ordet
         {
@@ -185,24 +185,23 @@ map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoF
 
 void biggestFamily(map<string, set<string>>& wordFamilies, string& wordSoFar, set<string>& fittingWords) {
 
-    map<string, set<string>> tempMap;
+    string biggestKey;
     int size = 0;
+    map<string, set<string>> tempMap;
 
-    for(map<string, set<string>>::iterator it = wordFamilies.begin(); it != wordFamilies.end(); ++it)
+    for(map<string, set<string>>::iterator it = wordFamilies.begin(); it != wordFamilies.end(); ++it) //Itererar genom familjen och kollar vilken som är störst
     {
         if (size < it->second.size())
         {
             size = it->second.size();
-            tempMap[it->first] = it->second;
+            biggestKey = it->first;
         }
     }
 
+    fittingWords = wordFamilies[biggestKey];     //Kopierar sedan in den i en temporär map och skriver sedan över vår wordFamilies.
+    tempMap[biggestKey] = fittingWords;
     wordFamilies = tempMap;
-    for(map<string, set<string>>::iterator it = wordFamilies.begin(); it != wordFamilies.end(); ++it)
-    {
-        wordSoFar = it->first;
-        fittingWords = it->second;
-    }
+    wordSoFar = biggestKey;
 }
 
 void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){

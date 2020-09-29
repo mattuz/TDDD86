@@ -11,6 +11,7 @@ using namespace std;
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
 void wordChain(const string& w1, const string& w2, const set<string>& dictionary);
+void findNeighbours(stack<string>& currentStack, queue<stack<string>>& chains, const set<string>& dictionary, set<string>& usedWords);
 
 int main() {
     string line;
@@ -65,23 +66,27 @@ void wordChain(const string& w1, const string& w2, const set<string>& dictionary
         }
         else
         {
-            string word = currentStack.top();
-            for(int i = 0; i < word.length(); i++)
-            {
-                for(int j = 0; j < ALPHABET.length(); j++)
-                {
+            findNeighbours(currentStack, chains, dictionary, usedWords);
+        }
+    }
+}
 
-                    string s (1,ALPHABET[j]);
-                    string tempWord = word;
-                    tempWord.replace(i, 1, s);
-                    if((dictionary.count(tempWord) == 1) && (usedWords.count(tempWord) == 0))
-                    {
-                        usedWords.insert(tempWord);
-                        stack<string> copyStack = currentStack;
-                        copyStack.push(tempWord);
-                        chains.push(copyStack);
-                    }
-                }
+void findNeighbours(stack<string>& currentStack, queue<stack<string>>& chains, const set<string>& dictionary, set<string>& usedWords) {
+    string word = currentStack.top();
+    for(int i = 0; i < word.length(); i++)
+    {
+        for(int j = 0; j < ALPHABET.length(); j++)
+        {
+
+            string s (1,ALPHABET[j]);
+            string tempWord = word;
+            tempWord.replace(i, 1, s);
+            if((dictionary.count(tempWord) == 1) && (usedWords.count(tempWord) == 0))
+            {
+                usedWords.insert(tempWord);
+                stack<string> copyStack = currentStack;
+                copyStack.push(tempWord);
+                chains.push(copyStack);
             }
         }
     }
