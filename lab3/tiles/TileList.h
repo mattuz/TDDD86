@@ -23,6 +23,9 @@ public:
     void removeAll(int x, int y);
 
 private:
+    int t_size = 0;
+    int t_capacity = 10;
+    Tile* t_array = new Tile[t_capacity];
 
 };
 
