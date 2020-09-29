@@ -8,10 +8,10 @@
 using namespace std;
 
 void hangmanPlayer(const int& guesses, const string& answer, string& currentWord, set<string>& words, string& guessedLetters);
-map<string, set<string>> wordFamilies(set<string>& words, string& currentWord, string userGuess);
+map<string, set<string>> wordFamilies(set<string>& words, string& currentWord, const string& userGuess);
 void biggestFamily(map<string, set<string>>& allfamilies, string& currentWord, set<string>& words);
-bool wordFound(string currentWord);
-void gameOver(set<string> words, string currentWord, string& newGame);
+bool wordFound(const string& currentWord);
+void gameOver(const set<string>& words, const string& currentWord, string& newGame);
 
 const string ALPHABET  = "abcdefghijklmnopqrstuvwxyz";
 
@@ -134,7 +134,7 @@ void hangmanPlayer(const int& numberOfGuesses, const string& showRemainingWords,
 
 }
 
-map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoFar, string userGuess){
+map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoFar, const string& userGuess){
 
     map<string, set<string>> wordFamilies;
     string key = wordSoFar;
@@ -204,7 +204,7 @@ void biggestFamily(map<string, set<string>>& wordFamilies, string& wordSoFar, se
     wordSoFar = biggestKey;
 }
 
-void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){
+void gameOver(const set<string>& wordLengthWords, const string& wordSoFar, string& newGame){
 
     string winningWord = *wordLengthWords.begin();
 
@@ -221,7 +221,7 @@ void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){
     cin >> newGame;
 }
 
-bool wordFound (string currentWord){
+bool wordFound (const string& currentWord){
     for(int i = 0; i < currentWord.length(); i++)
     {
         char a = currentWord[i];
