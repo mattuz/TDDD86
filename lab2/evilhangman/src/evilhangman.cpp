@@ -88,7 +88,7 @@ int main() {
         wordSoFar.append("-");
     }
 
-    while( numberOfGuesses > 0 && !wordFound(wordSoFar))
+    while(numberOfGuesses > 0 && !wordFound(wordSoFar))
     {
         hangmanPlayer(numberOfGuesses, showRemainingWords, wordSoFar, fittingWords, guessedLetters);
         numberOfGuesses--;
@@ -99,36 +99,6 @@ int main() {
     }
 
     return 0;
-}
-
-void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){
-
-    string winningWord = *wordLengthWords.begin();
-
-    if(wordFound(wordSoFar))
-    {
-        cout << "Congrats, you won! The word was: " << winningWord << endl;
-    }
-    else
-    {
-    cout << "You lost, the correct word was: " << winningWord << endl;
-    }
-
-    cout << "Do you want to play again? (y/n)" << endl;
-    cin >> newGame;
-}
-
-bool wordFound (string currentWord){
-    for(int i = 0; i < currentWord.length(); i++)
-    {
-        char a = currentWord[i];
-        if(a == '-')
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 void hangmanPlayer(const int& numberOfGuesses, const string& showRemainingWords,
@@ -170,9 +140,9 @@ map<string, set<string>> wordFamilies(set<string>& fittingWords, string& wordSoF
     string key = wordSoFar;
 
     for(string word : fittingWords)
-    {                                               //För all aord av rätt längd
-        if(word.find(userGuess) == word.npos)
-        {                                            //Om bokstaven inte finns i ordet
+    {                                               //För all ord av rätt längd
+        if(word.find(userGuess) == word.npos)       //Om bokstaven inte finns i ordet
+        {
             if(wordFamilies.count(wordSoFar) == 0)
             {
                 set<string> familySet;
@@ -233,4 +203,34 @@ void biggestFamily(map<string, set<string>>& wordFamilies, string& wordSoFar, se
         wordSoFar = it->first;
         fittingWords = it->second;
     }
+}
+
+void gameOver(set<string> wordLengthWords, string wordSoFar, string& newGame){
+
+    string winningWord = *wordLengthWords.begin();
+
+    if(wordFound(wordSoFar))
+    {
+        cout << "Congrats, you won! The word was: " << winningWord << endl;
+    }
+    else
+    {
+    cout << "You lost, the correct word was: " << winningWord << endl;
+    }
+
+    cout << "Do you want to play again? (y/n)" << endl;
+    cin >> newGame;
+}
+
+bool wordFound (string currentWord){
+    for(int i = 0; i < currentWord.length(); i++)
+    {
+        char a = currentWord[i];
+        if(a == '-')
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
