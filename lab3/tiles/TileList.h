@@ -14,15 +14,17 @@ class TileList {
 public:
     TileList();
     ~TileList();
-    void addTile(Tile tile);
+    void addTile(const Tile tile);
     void drawAll(QGraphicsScene* scene);
-    int indexOfTopTile(int x, int y);
-    void lower(int x, int y);
-    void raise(int x, int y);
-    void remove(int x, int y);
-    void removeAll(int x, int y);
+    int indexOfTopTile(const int x, const int y);
+    void lower(const int x, const int y);
+    void raise(const int x, const int y);
+    void remove(const int x, const int y);
+    void removeAll(const int x, const int y);
 
 private:
+    void loopThroughList(const string direction, const int tileIndex);
+    void resize();
     int t_size = 0;
     int t_capacity = 10;
     Tile* t_array = new Tile[t_capacity];
