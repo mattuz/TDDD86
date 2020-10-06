@@ -18,7 +18,7 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    string filename = "tsp10.txt";
+    string filename = "usa13509.txt";
     ifstream input;
     input.open(filename);
 
@@ -28,6 +28,18 @@ int main(int argc, char *argv[]) {
     input >> width;
     input >> height;
 
+    //Felsöknings tester
+    Point p(100.0, 100.0);
+    Point q(700.0, 100.0);
+    Point r(500.0, 500.0);
+    Point s(100.0, 500.0);
+
+    //Tour squareTour(p, q, r, s);
+    //squareTour.show();
+    //cout << squareTour.size() << endl;
+    //cout << squareTour.distance() << endl;
+
+
     // setup graphical window
     QGraphicsView *view = new QGraphicsView();
     QGraphicsScene *scene = new QGraphicsScene();
@@ -36,18 +48,21 @@ int main(int argc, char *argv[]) {
     view->setSceneRect(0, 0, width, height);
     view->show();
 
+    //squareTour.draw(scene);
+
     // run insertion heuristic
     Tour tour;
     double x;
     double y;
     while (input >> x >> y) {
         Point p(x, y);
-        tour.insertNearest(p);
+        //tour.insertNearest(p);
+        tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
-        //tour.draw(scene);
-        //std::chrono::milliseconds dura(50);
-        //std::this_thread::sleep_for(dura);
-        //a.processEvents();
+        tour.draw(scene);
+        std::chrono::milliseconds dura(1);
+        std::this_thread::sleep_for(dura);
+        a.processEvents();
     }
     input.close();
 
@@ -55,9 +70,11 @@ int main(int argc, char *argv[]) {
     cout << "Tour distance: " << std::fixed << std::setprecision(4)
          << std::showpoint << tour.distance() << endl;
     cout << "Number of points: " << tour.size() << endl;
-    tour.show();
+    //tour.show();
 
     // draw tour
     tour.draw(scene);
+
+
     return a.exec(); // start Qt event loop
 }

@@ -13,6 +13,7 @@
 class Tour {
 public:
 
+    Tour(Point a, Point b, Point c, Point d);
     Tour();
     ~Tour();
     void show();
@@ -23,6 +24,8 @@ public:
     void insertSmallest(Point p);
 
 private:
+    Node* m_front = nullptr;
+    Node* m_current = nullptr;
 
 };
 
