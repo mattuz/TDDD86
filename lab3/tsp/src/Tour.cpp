@@ -1,8 +1,7 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+/*
+ * This file contains the implementation of the Tour class.
+ * See Tour.h for comments about each member.
+ */
 
 #include <iostream>
 #include "Tour.h"
@@ -27,12 +26,10 @@ Tour::Tour(Point a, Point b, Point c, Point d)
 
 Tour::Tour()
 {
-
 }
 
 Tour::~Tour()
 {
-    // TODO: write this member
 }
 
 void Tour::show()
@@ -107,7 +104,7 @@ double Tour::distance()
     return distance;
 }
 
-void Tour::insertNearest(Point p)
+void Tour::insertNearest(const Point p)
 {
     double shortestRoute = -1;
     Node* closestPoint = nullptr;
@@ -142,7 +139,7 @@ void Tour::insertNearest(Point p)
 
 }
 
-void Tour::insertSmallest(Point p)
+void Tour::insertSmallest(const Point p)
 {
     double smallestIncrease = -1;
     Node* closestPoint = nullptr;
