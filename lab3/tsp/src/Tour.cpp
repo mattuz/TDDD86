@@ -108,7 +108,7 @@ void Tour::insertNearest(const Point p)
 {
     double shortestRoute = -1;
     Node* closestPoint = nullptr;
-    Node* nodeP = new Node(p, nullptr);
+    Node* nodeP = new Node(p, nullptr);         //Läcka här, måste tas bort på något sätt eftersom vi allokerar utrymme med "new".
 
     if(m_front != nullptr)
     {
@@ -118,7 +118,7 @@ void Tour::insertNearest(const Point p)
         while(!lastnode){
             if(shortestRoute == -1 || m_current->point.distanceTo(p) < shortestRoute)
             {
-                shortestRoute = m_current->point.distanceTo(p);
+                shortestRoute = m_current->point.distanceTo(p);             //Lästa i FAQ att vi typ inte ska använda distanceTo, blir dubbelloop.
                 closestPoint = m_current;
             }
 
@@ -137,13 +137,14 @@ void Tour::insertNearest(const Point p)
         nodeP->next = nodeP;
     }
 
+
 }
 
 void Tour::insertSmallest(const Point p)
 {
     double smallestIncrease = -1;
     Node* closestPoint = nullptr;
-    Node* nodeP = new Node(p, nullptr);
+    Node* nodeP = new Node(p, nullptr);            //Läcka här
 
     if(m_front != nullptr)
     {

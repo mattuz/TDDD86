@@ -58,7 +58,7 @@ public:
 private:
     Node* m_front = nullptr;    //Pointer to the first element in a tour.
     Node* m_current = nullptr;  //Pointer used when traversing a tour.
-
+    //Node* nodeP;
 };
 
 #endif // TOUR_H
