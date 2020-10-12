@@ -1,12 +1,5 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
 
 #include "TileList.h"
-//Tile* array[10];
-//int x = 0;
 
 TileList::TileList()
 {
@@ -18,7 +11,7 @@ TileList::~TileList()
 }
 
 
-void TileList::addTile(const Tile tile)           //Här behöver vi skapa något som kollar om den är full (om size == capacity). Isf dubbla capacity och kopiera in allt.
+void TileList::addTile(const Tile tile)
 {
     if (t_size == t_capacity)
     {
@@ -85,14 +78,14 @@ void TileList::removeAll(const int x, const int y)
     while(tileIndex != -1)
     {
         loopThroughList("forwards", tileIndex);
-        tileIndex = indexOfTopTile(x,y);            // Tar nu den nya som är längst upp
+        tileIndex = indexOfTopTile(x,y);
     }
 }
 
 void TileList::resize()
 {
     Tile* tempArray = new Tile[t_capacity*2];
-    copy(t_array, t_array+t_capacity, tempArray);       //Flytta ut denna till en resize()?
+    copy(t_array, t_array+t_capacity, tempArray);
     t_capacity *=2;
     delete [] t_array;
     t_array = tempArray;
