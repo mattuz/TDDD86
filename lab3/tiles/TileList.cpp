@@ -91,7 +91,7 @@ void TileList::resize()
     t_array = tempArray;
 }
 
-void TileList::loopThroughList(const string direction, const int tileIndex)
+void TileList::loopThroughList(const string& direction, const int tileIndex)
 {
     if(direction == "forwards"){
         for(int i = tileIndex; i < t_size; i++)

@@ -74,7 +74,7 @@ private:
      * Traverses the list in a given direction and either increases or decreases
      * each tiles index (given the direction), starting from the given tileIndex.
      */
-    void loopThroughList(const string direction, const int tileIndex);
+    void loopThroughList(const string& direction, const int tileIndex);
 
     /*
      * Increases the capacity of the array by x2. Creates a new array (B) with x2

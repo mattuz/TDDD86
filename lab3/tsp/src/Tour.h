@@ -21,7 +21,7 @@ public:
     Tour();
 
     /*
-     * Destructor.
+     * Destructor. Traverses though a linked list and deletes all the nodes.
      */
     ~Tour();
 

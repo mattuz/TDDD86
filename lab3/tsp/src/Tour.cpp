@@ -31,20 +31,22 @@ Tour::Tour()
 Tour::~Tour()
 {
 
-    m_current = m_front;
-    m_front = nullptr;
+    m_current = m_front->next;
+    //m_front = nullptr;
     Node* first = m_current->next;
 
 
     while(first != m_front)
     {
         delete m_current;
-        if(first != nullptr)
+        m_current = first;
+        if(first != m_front)
         {
-            m_current = first;
             first = m_current->next;
         }
     }
+    delete m_current;
+    delete m_front;
 }
 
 void Tour::show()
@@ -123,7 +125,7 @@ void Tour::insertNearest(const Point p)
 {
     double shortestRoute = -1;
     Node* closestPoint = nullptr;
-    Node* nodeP = new Node(p, nullptr);         //Läcka här, måste tas bort på något sätt eftersom vi allokerar utrymme med "new".
+    Node* nodeP = new Node(p, nullptr);
 
     if(m_front != nullptr)
     {
@@ -159,7 +161,7 @@ void Tour::insertSmallest(const Point p)
 {
     double smallestIncrease = -1;
     Node* closestPoint = nullptr;
-    Node* nodeP = new Node(p, nullptr);            //Läcka här
+    Node* nodeP = new Node(p, nullptr);
 
     if(m_front != nullptr)
     {
