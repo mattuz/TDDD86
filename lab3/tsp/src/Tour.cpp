@@ -32,7 +32,6 @@ Tour::~Tour()
 {
 
     m_current = m_front->next;
-    //m_front = nullptr;
     Node* first = m_current->next;
 
 
