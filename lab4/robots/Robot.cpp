@@ -7,6 +7,18 @@
 #include "constants.h"
 
 Robot::Robot() : Unit() {}
+Robot::Robot(const Robot& c) : Unit(c) {}
+
+/*void moveTowards(const Unit& u) {
+    if (x > u.x) x--;
+    if (x < u.x) x++;
+    if (y > u.y) y--;
+    if (y < u.y) y++;
+    checkBounds();
+}*/
+
+/*bool attacks(const Unit& u) const {
+}*/
 
 void Robot::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
