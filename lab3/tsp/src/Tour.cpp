@@ -30,22 +30,25 @@ Tour::Tour()
 
 Tour::~Tour()
 {
+    if(m_front->next != nullptr){
 
-    m_current = m_front->next;
-    Node* first = m_current->next;
+        m_current = m_front->next;
+        Node* first = m_current->next;
 
 
-    while(first != m_front)
-    {
-        delete m_current;
-        m_current = first;
-        if(first != m_front)
+        while(first != m_front)
         {
-            first = m_current->next;
+            delete m_current;
+            m_current = first;
+            if(first != m_front)
+            {
+                first = m_current->next;
+            }
         }
+
+        delete m_current;
+        delete m_front;
     }
-    delete m_current;
-    delete m_front;
 }
 
 void Tour::show()
