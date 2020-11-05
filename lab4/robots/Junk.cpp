@@ -9,6 +9,14 @@
 Junk::Junk() : Robot() {}
 Junk::Junk(const Robot& c) : Robot(c) {}
 
+void Junk::moveTowards(const Unit& u) {}
+bool Junk::attacks(const Unit& u) const {
+    return false;
+}
+unsigned Junk::getCollisionCount(){
+    return 0;
+}
+
 void Junk::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
     scene->addEllipse(QRectF(corner.x * UNIT_WIDTH, corner.y * UNIT_HEIGHT,

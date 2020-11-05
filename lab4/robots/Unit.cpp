@@ -44,7 +44,7 @@ void Unit::moveTowards(const Unit& u) {
     checkBounds();
 }
 
-void Unit::draw() {}
+void Unit::draw(QGraphicsScene* scene) {}
 
 void Unit::teleport() {
     x = rand_int (MIN_X, MAX_X);

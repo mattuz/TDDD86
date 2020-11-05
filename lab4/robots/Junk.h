@@ -14,6 +14,9 @@ public:
     Junk();
     Junk(const Robot& c);
 
+    void moveTowards(const Unit& u) override;
+    bool attacks(const Unit& u) const override;
+    unsigned getCollisionCount() override;
 
     /*
     * Draws this junk onto the given QGraphicsScene.

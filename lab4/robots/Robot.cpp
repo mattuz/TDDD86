@@ -9,17 +9,9 @@
 Robot::Robot() : Unit() {}
 Robot::Robot(const Robot& c) : Unit(c) {}
 
-/*void moveTowards(const Unit& u) {
-    if (x > u.x) x--;
-    if (x < u.x) x++;
-    if (y > u.y) y--;
-    if (y < u.y) y++;
-    checkBounds();
-}*/
-
-/*bool attacks(const Unit& u) const {
-}*/
-
+unsigned Robot::getCollisionCount(){
+    return 1;
+}
 void Robot::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
     scene->addEllipse(QRectF(corner.x * UNIT_WIDTH, corner.y * UNIT_HEIGHT,

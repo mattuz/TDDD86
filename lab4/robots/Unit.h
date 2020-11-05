@@ -7,6 +7,8 @@
 #define UNIT_H
 
 #include "utilities.h"
+#include <QGraphicsScene>
+
 
 /* Root class for all pieces on the board.
  * Subclasses are Robot, Hero and Junk.
@@ -37,7 +39,7 @@ public:
     */
     virtual void moveTowards(const Unit& u);
 
-    virtual void draw();
+    virtual void draw(QGraphicsScene* scene);
 
     /*
     * Teleport. Does not check for collision

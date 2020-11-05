@@ -30,7 +30,7 @@ Tour::Tour()
 
 Tour::~Tour()
 {
-    if(m_front->next != nullptr){
+    if(m_front != nullptr){
 
         m_current = m_front->next;
         Node* first = m_current->next;
