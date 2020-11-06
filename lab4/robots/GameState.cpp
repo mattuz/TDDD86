@@ -6,6 +6,8 @@
 #include "GameState.h"
 #include "utilities.h"
 #include "constants.h"
+#include <iostream>
+#include <typeinfo>
 
 GameState::GameState(){}
 
@@ -34,8 +36,11 @@ void GameState::teleportHero() {
 }
 
 void GameState::moveRobots() {
-    for (unsigned int i = 0; i < robots.size(); i++)
+    for (unsigned int i = 0; i < robots.size(); i++){
+        if(typeid(robots[i]) != typeid(Junk)){
         robots[i].moveTowards (hero);
+        }
+        }
 }
 
 int GameState::countCollisions() {
@@ -45,7 +50,7 @@ int GameState::countCollisions() {
         bool hitJunk = junkAt (robots[i]);
         bool collision = (countRobotsAt (robots[i]) > 1);
         if (hitJunk || collision) {
-            if (!hitJunk) junks.push_back (Junk(robots[i]));
+            junks.push_back (Junk(robots[i]));
             robots[i] = robots[robots.size()-1];
             robots.pop_back();
             numberDestroyed++;

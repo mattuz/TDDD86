@@ -5,11 +5,14 @@
 
 #include "Junk.h"
 #include "constants.h"
+#include <iostream>
 
 Junk::Junk() : Robot() {}
 Junk::Junk(const Robot& c) : Robot(c) {}
 
-void Junk::moveTowards(const Unit& u) {}
+void Junk::moveTowards(const Unit& u) {
+    std::cout << "output bish";
+}
 bool Junk::attacks(const Unit& u) const {
     return false;
 }

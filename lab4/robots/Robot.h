@@ -15,7 +15,7 @@ public:
     Robot(const Robot& c);
 
     virtual unsigned getCollisionCount();
-    void draw(QGraphicsScene* scene) const;
+    virtual void draw(QGraphicsScene* scene) const;
 
 private:
 };
