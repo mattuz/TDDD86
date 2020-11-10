@@ -10,9 +10,7 @@
 Junk::Junk() : Robot() {}
 Junk::Junk(const Robot& c) : Robot(c) {}
 
-void Junk::moveTowards(const Unit& u) {
-    std::cout << "output bish";
-}
+void Junk::moveTowards(const Unit& u) {}
 bool Junk::attacks(const Unit& u) const {
     return false;
 }
