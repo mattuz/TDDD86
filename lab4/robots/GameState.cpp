@@ -13,11 +13,9 @@ GameState::GameState(){}
 
 GameState::GameState(int numberOfRobots) {
     for (int i = 0; i < numberOfRobots; i++) {
-        /*Robot* robot;
+        Robot* robot;
         do {robot = new Robot();}
-        while (!isEmptyP (robot));
-        robots.push_back(robot);*/
-        Robot* robot = new Robot();
+        while (!isEmpty (*robot));
         robots.push_back(robot);
     }
     teleportHero();
@@ -49,21 +47,27 @@ int GameState::countCollisions() {
     int numberDestroyed = 0;
     unsigned int i = 0;
     while (i < robots.size()) {
-       // bool hitJunk = junkAt (robots[i]);
-        bool collision = (countRobotsAt (robots[i]) > 1);
-        if (/*hitJunk ||*/ collision) {
-            //junks.push_back (Junk(robots[i]));
-            //robots.push_back (new Junk(robots[i])); //Kanske ska vara såhär sen
+        bool hitJunk = junkAt (*robots[i]);
+        bool collision = (countRobotsAt (*robots[i]) > 1);
+        if (hitJunk || collision) {
+            robots.push_back (new Junk(*robots[i])); //Kanske ska vara såhär sen
             robots[i] = robots[robots.size()-1];
             robots.pop_back();
             numberDestroyed++;
+            std::cout << numberDestroyed << "\n";
+            i++;
         } else i++;
     }
     return numberDestroyed;
 }
 
 bool GameState::anyRobotsLeft() const {
-    return (robots.size() != 0);
+    for (unsigned int i = 0; i < robots.size(); i++) {
+        if (typeid(*robots[i]) == typeid(Robot)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool GameState::heroDead() const {
@@ -87,38 +91,33 @@ Hero GameState::getHero() const {return hero;}
  * Free of robots and junk only
  */
 bool GameState::isEmpty(const Unit& unit) const {
-    return (countRobotsAt(unit) == 0 /*&& !junkAt(unit)*/);
+    return (countRobotsAt(unit) == 0 && !junkAt(unit));
 
 }
-bool GameState::isEmptyP(Unit*& unit) const {
-    return (countRobotsAtP(unit) == 0 /*&& !junkAt(unit)*/);
-}
+
 /*
  * Is there junk at unit?
+ */
 
 bool GameState::junkAt(const Unit& unit) const {
-    for (size_t i = 0; i < junks.size(); ++i)
-        if (junks[i].at(unit)) return true;
+    for (size_t i = 0; i < robots.size(); ++i)
+        if (typeid(*robots[i]) == typeid(Junk) && typeid(unit) == typeid(Robot)) {
+            if (robots[i]->at(unit)) return true;
+        }
     return false;
-}*/
+}
 
 /*
  * How many robots are there at unit?
  */
 int GameState::countRobotsAt(const Unit& unit) const {
     int count = 0;
-    for (size_t i = 0; i < robots.size(); ++i) {
-        if (robots[i]->at(unit))
-            count++;
+    if (typeid(unit) != typeid(Junk)){
+        for (size_t i = 0; i < robots.size(); ++i) {
+            if (robots[i]->at(unit) && typeid(*robots[i]) == typeid(Robot))
+                count++;
+        }
     }
     return count;
-}
 
-int GameState::countRobotsAtP(const Unit*& unit) const {
-    int count = 0;
-    for (size_t i = 0; i < robots.size(); ++i) {
-        if (robots[i]->at(unit))
-            count++;
-    }
-    return count;
 }
