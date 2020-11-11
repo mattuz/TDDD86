@@ -16,8 +16,10 @@ public:
 
     virtual unsigned getCollisionCount();
     virtual void draw(QGraphicsScene* scene) const;
+    //Robot* clone() const override;
 
 private:
+    //Robot& operator= (const Robot&) = delete;
 };
 
 #endif // ROBOT_H

@@ -11,7 +11,7 @@
 
 GameState::GameState(){}
 
-GameState::GameState(int numberOfRobots) {
+GameState::GameState(int numberOfRobots) { // Ska man lägga delete här? Hur? Var?
     for (int i = 0; i < numberOfRobots; i++) {
         Robot* robot;
         do {robot = new Robot();}
@@ -21,12 +21,18 @@ GameState::GameState(int numberOfRobots) {
     teleportHero();
 }
 
+/*GameState::~GameState(){
+    for(auto x : robots){
+        delete x;
+    }
+}*/
+
 void GameState::draw(QGraphicsScene *scene) const {
     scene->clear();
     for (size_t i = 0; i < robots.size(); ++i)
         robots[i]->draw(scene);
-    for (size_t i = 0; i < junks.size(); ++i)
-        junks[i].draw(scene);
+   // for (size_t i = 0; i < junks.size(); ++i)
+     //   junks[i].draw(scene);
     hero.draw(scene);
 }
 
@@ -40,7 +46,7 @@ void GameState::moveRobots() {
         if(typeid(robots[i]) != typeid(Junk)){
         robots[i]->moveTowards (hero);
         }
-        }
+    }
 }
 
 int GameState::countCollisions() {
@@ -51,6 +57,8 @@ int GameState::countCollisions() {
         bool collision = (countRobotsAt (*robots[i]) > 1);
         if (hitJunk || collision) {
             robots.push_back (new Junk(*robots[i])); //Kanske ska vara såhär sen
+            Robot* p = robots[i];
+            delete p;
             robots[i] = robots[robots.size()-1];
             robots.pop_back();
             numberDestroyed++;

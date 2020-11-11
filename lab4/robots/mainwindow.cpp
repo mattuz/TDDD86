@@ -153,9 +153,9 @@ bool MainWindow::tryMove(Hero hero, const Point& point) {
  * Process results of viable move
  */
 void MainWindow::processMove(bool waiting) {
-  // GameState copy=gameState;
-  // copy.moveRobots();
-  // gameState=copy;
+   //GameState copy=gameState;
+   //copy.moveRobots();
+   //gameState=copy;
 
     gameState.moveRobots();
     score += gameState.countCollisions() * (POINTS_PER_ROBOT +

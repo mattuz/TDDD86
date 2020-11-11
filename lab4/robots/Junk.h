@@ -18,10 +18,14 @@ public:
     bool attacks(const Unit& u) const override;
     unsigned getCollisionCount() override;
 
+    //Junk* clone() const override;
+
     /*
     * Draws this junk onto the given QGraphicsScene.
     */
     void draw(QGraphicsScene* scene) const override;
+private:
+    //Junk& operator= (const Junk&) = delete;
 };
 
 #endif // JUNK_H

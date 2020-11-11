@@ -50,12 +50,15 @@ public:
     * Euclidean distance to u
     */
     double distanceTo(const Unit& u) const;
+    //virtual Unit* clone() const = 0;
 private:
     int x;  // x position of this unit
     int y;  // y position of this unit
 
     // private helpers
     void checkBounds();
+
+    //Unit& operator= (const Unit&) = delete;
 };
 
 #endif // UNIT_H
