@@ -18,7 +18,7 @@ public:
     bool attacks(const Unit& u) const override;
     unsigned getCollisionCount() override;
 
-    //Junk* clone() const override;
+    Junk* clone() const override;
 
     /*
     * Draws this junk onto the given QGraphicsScene.

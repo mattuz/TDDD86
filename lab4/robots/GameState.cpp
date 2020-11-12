@@ -21,18 +21,38 @@ GameState::GameState(int numberOfRobots) { // Ska man lägga delete här? Hur? V
     teleportHero();
 }
 
-/*GameState::~GameState(){
+GameState::GameState(const GameState& other) {
+    for (unsigned int i; i < other.robots.size(); i++) {
+       robots.push_back(other.robots[i]->clone());
+   }
+    hero = other.hero;
+}
+
+GameState::~GameState(){
     for(auto x : robots){
         delete x;
     }
-}*/
+}
+
+GameState& GameState::operator=(const GameState& other) {
+    if (this != &other){
+        for (unsigned int i=0; i < other.robots.size(); i++) {
+            if (robots.size() > 0) {
+                delete robots[i];
+            } else {
+                robots.push_back(other.robots[i]->clone());
+            }
+        }
+        hero = other.hero;
+    }
+    return *this;
+
+}
 
 void GameState::draw(QGraphicsScene *scene) const {
     scene->clear();
     for (size_t i = 0; i < robots.size(); ++i)
         robots[i]->draw(scene);
-   // for (size_t i = 0; i < junks.size(); ++i)
-     //   junks[i].draw(scene);
     hero.draw(scene);
 }
 
@@ -62,7 +82,6 @@ int GameState::countCollisions() {
             robots[i] = robots[robots.size()-1];
             robots.pop_back();
             numberDestroyed++;
-            std::cout << numberDestroyed << "\n";
             i++;
         } else i++;
     }
@@ -127,5 +146,4 @@ int GameState::countRobotsAt(const Unit& unit) const {
         }
     }
     return count;
-
 }
