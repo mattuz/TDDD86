@@ -19,4 +19,15 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
    "EIOSST", "ELRTTY", "HIMNQU", "HLNNRZ"
 };
 
+Boggle::Boggle() {
+    cubes = ;
+    for (int i = 0; i < 16; i++) {
+        char cubes[i] = new char[6];
+        for (int j = 0; j < 6; j++) {
+            cubes[i].push_back(CUBES[i][j]);
+
+        }
+    }
+}
+
 // TODO: implement the members you declared in Boggle.h

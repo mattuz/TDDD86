@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include "vector.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -19,10 +20,16 @@ public:
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
 
+    Boggle();
+
     // TODO: decide the public member functions and declare them
 
 private:
     // TODO: decide the private member variables/functions and declare them
+
+
+    char* cubes[16];
+
 
 };
 
