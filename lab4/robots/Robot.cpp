@@ -8,6 +8,9 @@
 
 Robot::Robot() : Unit() {}
 Robot::Robot(const Robot& c) : Unit(c) {}
+Robot::~Robot() {
+    delete this;
+}
 
 unsigned Robot::getCollisionCount(){
     return 1;

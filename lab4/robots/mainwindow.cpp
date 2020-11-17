@@ -9,6 +9,7 @@
 #include "Hero.h"
 #include "Robot.h"
 #include "Junk.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent) {
@@ -73,6 +74,7 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
+    std::cout << "trycker på en knapp \n";
     if (!gameOver) { // only process key presses while game is not over
         Hero hero = gameState.getHero();
         Point pt = hero.asPoint();
@@ -153,11 +155,13 @@ bool MainWindow::tryMove(Hero hero, const Point& point) {
  * Process results of viable move
  */
 void MainWindow::processMove(bool waiting) {
-   GameState copy=gameState;
-   copy.moveRobots();
-   gameState=copy;
+   std::cout << "processMove \n";
+   //GameState copy=gameState;
+   //copy.moveRobots();
+   //gameState=copy;
 
-   //gameState.moveRobots();
+   gameState.moveRobots();
+   std::cout<<"RÖV";
     score += gameState.countCollisions() * (POINTS_PER_ROBOT +
                                             (waiting ? WAIT_BONUS : 0));
     gameState.draw(scene);

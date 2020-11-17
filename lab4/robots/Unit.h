@@ -50,7 +50,8 @@ public:
     * Euclidean distance to u
     */
     double distanceTo(const Unit& u) const;
-    //virtual Unit* clone() const = 0;
+
+    virtual Unit* clone() const;
 private:
     int x;  // x position of this unit
     int y;  // y position of this unit

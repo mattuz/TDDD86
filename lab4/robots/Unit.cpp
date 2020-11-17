@@ -66,3 +66,7 @@ void Unit::checkBounds() {
     if (y < MIN_Y) y = MIN_Y;
     if (y > MAX_Y) y = MAX_Y;
 }
+
+Unit* Unit::clone() const {
+    return new Unit(*this);
+}

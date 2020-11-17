@@ -12,6 +12,7 @@
 GameState::GameState(){}
 
 GameState::GameState(int numberOfRobots) { // Ska man lägga delete här? Hur? Var?
+    std::cout << "In i vanliga konstruktorn \n";
     for (int i = 0; i < numberOfRobots; i++) {
         Robot* robot;
         do {robot = new Robot();}
@@ -22,31 +23,34 @@ GameState::GameState(int numberOfRobots) { // Ska man lägga delete här? Hur? V
 }
 
 GameState::GameState(const GameState& other) {
-    for (unsigned int i; i < other.robots.size(); i++) {
+    std::cout << "In i copy constr. \n";
+    for (unsigned int i = 0; i < other.robots.size(); i++) {
        robots.push_back(other.robots[i]->clone());
    }
     hero = other.hero;
 }
 
 GameState::~GameState(){
+    std::cout << "In i destruktor \n";
     for(auto x : robots){
         delete x;
     }
 }
 
 GameState& GameState::operator=(const GameState& other) {
+    std::cout << "In i operator= \n";
     if (this != &other){
-        for (unsigned int i=0; i < other.robots.size(); i++) {
-            if (robots.size() > 0) {
+        for (unsigned int i=0; i < robots.size(); i++) {
                 delete robots[i];
-            } else {
-                robots.push_back(other.robots[i]->clone());
-            }
+        }
+        robots.clear();
+
+        for (unsigned int i=0; i < other.robots.size(); i++) {
+            robots.push_back(other.robots[i]->clone());
         }
         hero = other.hero;
     }
     return *this;
-
 }
 
 void GameState::draw(QGraphicsScene *scene) const {
@@ -63,9 +67,7 @@ void GameState::teleportHero() {
 
 void GameState::moveRobots() {
     for (unsigned int i = 0; i < robots.size(); i++){
-        if(typeid(robots[i]) != typeid(Junk)){
-        robots[i]->moveTowards (hero);
-        }
+        robots[i]->moveTowards(hero);
     }
 }
 

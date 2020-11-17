@@ -13,10 +13,11 @@ class Robot : public Unit {
 public:
     Robot();
     Robot(const Robot& c);
+    virtual ~Robot();
 
     virtual unsigned getCollisionCount();
     virtual void draw(QGraphicsScene* scene) const;
-    virtual Robot* clone() const;
+    Robot* clone() const override;
 
 private:
     //Robot& operator= (const Robot&) = delete;
