@@ -155,13 +155,12 @@ bool MainWindow::tryMove(Hero hero, const Point& point) {
  * Process results of viable move
  */
 void MainWindow::processMove(bool waiting) {
-   std::cout << "processMove \n";
-   //GameState copy=gameState;
-   //copy.moveRobots();
-   //gameState=copy;
+   std::cout << "processMove "<<std::endl;
+   GameState copy=gameState;
+   copy.moveRobots();
+   gameState=copy;
 
-   gameState.moveRobots();
-   std::cout<<"RÖV";
+   //gameState.moveRobots();
     score += gameState.countCollisions() * (POINTS_PER_ROBOT +
                                             (waiting ? WAIT_BONUS : 0));
     gameState.draw(scene);
