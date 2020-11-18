@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include "vector.h"
+#include "grid.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -22,13 +23,15 @@ public:
 
     Boggle();
 
+    template <typename Grid>
+    Grid getCubes();
+
     // TODO: decide the public member functions and declare them
 
 private:
     // TODO: decide the private member variables/functions and declare them
+    Grid cubes = new Grid(4,4);
 
-
-    char* cubes[16];
 
 
 };

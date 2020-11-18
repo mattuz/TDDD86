@@ -36,6 +36,7 @@ GameState::~GameState(){
         std::cout << "Här är robots.size():  " << robots.size()<<std::endl;
         std::cout << "Försöker ta bort: "<<std::endl;
         delete x;
+        std::cout << "BORTA "<< std::endl;
     }
 }
 
