@@ -12,12 +12,32 @@
 class Junk : public Robot {
 public:
     Junk();
-    Junk(const Robot& c);
 
+    /*
+     * Constructs a Junk given a specific Robot.
+     * Gives it the same properties (coordinates etc.)
+     */
+    Junk(const Robot& c);
+    ~Junk() = default;
+
+    /*
+     * Overrides Unit.moveTowards. Does nothing (Junk cannot move).
+     */
     void moveTowards(const Unit& u) override;
+
+    /*
+     * Overrides Unit.attacks. Always returns false (Junk cannot attack).
+     */
     bool attacks(const Unit& u) const override;
+
+    /*
+     * Returns 0.
+     */
     unsigned getCollisionCount() override;
 
+    /*
+     * Polymorphic clone function. Clones "this" Junk. (this->clone..)
+     */
     Junk* clone() const override;
 
     /*
@@ -25,7 +45,7 @@ public:
     */
     void draw(QGraphicsScene* scene) const override;
 private:
-    //Junk& operator= (const Junk&) = delete;
+
 };
 
 #endif // JUNK_H

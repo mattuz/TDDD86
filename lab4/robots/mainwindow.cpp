@@ -74,7 +74,6 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    std::cout << "trycker på en knapp \n";
     if (!gameOver) { // only process key presses while game is not over
         Hero hero = gameState.getHero();
         Point pt = hero.asPoint();
@@ -155,16 +154,18 @@ bool MainWindow::tryMove(Hero hero, const Point& point) {
  * Process results of viable move
  */
 void MainWindow::processMove(bool waiting) {
-   std::cout << "processMove "<<std::endl;
    GameState copy=gameState;
    copy.moveRobots();
    gameState=copy;
 
+
    //gameState.moveRobots();
     score += gameState.countCollisions() * (POINTS_PER_ROBOT +
                                             (waiting ? WAIT_BONUS : 0));
+
     gameState.draw(scene);
     displayScore();
+
 
     if (!gameState.anyRobotsLeft()) { // won level
         numberOfRobots = std::min(MAX_ROBOTS, numberOfRobots + ROBOTS_INC);

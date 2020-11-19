@@ -51,7 +51,11 @@ public:
     */
     double distanceTo(const Unit& u) const;
 
+    /*
+     * Polymorphic clone function. Clones "this" Unit. (this->clone..)
+     */
     virtual Unit* clone() const;
+
 private:
     int x;  // x position of this unit
     int y;  // y position of this unit
@@ -59,7 +63,6 @@ private:
     // private helpers
     void checkBounds();
 
-    //Unit& operator= (const Unit&) = delete;
 };
 
 #endif // UNIT_H

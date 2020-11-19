@@ -21,10 +21,16 @@ class GameState {
 public:
     GameState();
     GameState(int numberOfRobots);
+    /*
+     * Copy constructor
+     */
     GameState(const GameState& other);
 
     ~GameState();
 
+    /*
+     * Copy assignment
+     */
     GameState& operator=(const GameState& other);
 
     /*
