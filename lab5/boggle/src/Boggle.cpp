@@ -20,10 +20,27 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 Boggle::Boggle() {
-    for(int i = 0; i<CUBES.size(); i++){
-        for(int j = 0; j<CUBES[i].length(); j++){
-            cubes.set(i,j,CUBES[i][j]);
-        }
+    cout<<"o/"<<endl;
+    for(int i = 0; i < NUM_CUBES; i++){
+        //char s[6] = {};
+        for(int j = 0; j < CUBE_SIDES; j++){
+            cubes[i][j] = CUBES[i][j];
+            //cout<<CUBES[i]<<" "<< CUBES[i][j]<<endl;
+            //cout<<cubes[i]<<" "<< cubes[i][j]<<endl;
+
+            }
+        //cubes[i] = *s;
+        //cout<<cubes[i]<<endl;
     }
+}
+
+char Boggle::getCubes(){
+    return **cubes;
+}
+
+void Boggle::printCubes(){
+    for(int i = 15; i < NUM_CUBES; i++){
+            cout << cubes[14]<<"\n";
+            }
 }
 // TODO: implement the members you declared in Boggle.h

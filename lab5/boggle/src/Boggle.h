@@ -23,15 +23,15 @@ public:
 
     Boggle();
 
-    template <typename Grid>
-    Grid getCubes();
+    char getCubes();
+    void printCubes();
+
 
     // TODO: decide the public member functions and declare them
 
 private:
     // TODO: decide the private member variables/functions and declare them
-    Grid cubes = new Grid(4,4);
-
+    char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
 
 
 };
