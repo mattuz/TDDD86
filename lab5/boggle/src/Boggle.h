@@ -17,6 +17,7 @@ using namespace std;
 
 class Boggle {
 public:
+    static const string ALPHABET;
     const string DICTIONARY_FILE = "EnglishWords.dat";
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
@@ -25,6 +26,10 @@ public:
 
     char getCubes();
     void printCubes();
+    void shuffleCubes();
+    void printCubeSide();
+    void boardChoice();
+    void playersOwnBoard();
 
 
     // TODO: decide the public member functions and declare them
