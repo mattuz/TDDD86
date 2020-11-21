@@ -23,10 +23,9 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 
 Boggle::Boggle() {
     for(int i = 0; i < NUM_CUBES; i++){
-        //char s[6] = {};
         for(int j = 0; j < CUBE_SIDES; j++){
             cubes[i][j] = CUBES[i][j];
-            }
+        }
     }
 }
 
