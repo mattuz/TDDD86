@@ -71,6 +71,7 @@ void Boggle::boardChoice() {
             check = 1;
         } else if (startsWith(answer, 'n')) {
             playersOwnBoard();
+            printCubeSide();
             check = 1;
         } else {
         cout << "Please type a word that begins with 'y' or 'n'." << endl;
@@ -90,20 +91,23 @@ void Boggle::playersOwnBoard() {
             if (ALPHABET.find(letters[i]) == string::npos) {
                 condition = false;
                 break;
-
             }
         }
-        cout << condition << endl;
         if (letters.size() != 16 && !condition) {
+            condition = true;
             cout << "Please enter 16 letters from the alphabet: ";
-            check = 0;
         } else if (letters.size() != 16) {
-            letters = trim(toLowerCase(letters));
+            condition = true;
+            cout << "Make sure you insert 16 letters: ";
+        } else if (!condition) {
+            condition = true;
+            cout << "Make sure you only insert letters: ";
+        } else {
+            letters = trim(toUpperCase(letters));
             check = 1;
-            cout << "Här ska vi köra in dem i cubes" << endl;
+            for (int i = 0; i < NUM_CUBES; i++) {
+                cubes[i][0] = letters[i];
+            }
         }
-
-
     }
-
 }
