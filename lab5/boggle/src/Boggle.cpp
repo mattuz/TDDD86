@@ -9,6 +9,7 @@
 #include "random.h"
 #include "shuffle.h"
 #include "strlib.h"
+using namespace std;
 
 static const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int NUM_CUBES = 16;   // the number of cubes in the game
@@ -80,15 +81,29 @@ void Boggle::boardChoice() {
 void Boggle::playersOwnBoard() {
     cout << "Please enter 16 letters that you want to use: ";
     int check = 0;
+    string letters;
+    bool condition = true;
+
     while (check == 0) {
-        string letters;
         getline(cin, letters);
         for (unsigned int i = 0; i < letters.size(); i++) {
-           /* if (ALPHABET.find(letters[i])) {
-                Ska typ kolla om den kan hitta bokstaven i letters i Alphabet.. npos verkar inte funka :(
-            }*/
+            if (ALPHABET.find(letters[i]) == string::npos) {
+                condition = false;
+                break;
+
+            }
+        }
+        cout << condition << endl;
+        if (letters.size() != 16 && !condition) {
+            cout << "Please enter 16 letters from the alphabet: ";
+            check = 0;
+        } else if (letters.size() != 16) {
+            letters = trim(toLowerCase(letters));
+            check = 1;
+            cout << "Här ska vi köra in dem i cubes" << endl;
         }
 
 
     }
+
 }

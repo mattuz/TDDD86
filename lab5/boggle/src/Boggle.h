@@ -17,7 +17,7 @@ using namespace std;
 
 class Boggle {
 public:
-    static const string ALPHABET;
+    //string ALPHABET;
     const string DICTIONARY_FILE = "EnglishWords.dat";
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
