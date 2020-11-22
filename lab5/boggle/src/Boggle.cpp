@@ -39,7 +39,7 @@ void Boggle::printCubes(){ //Mainly used for testing. Prints the entire cube, no
     for(int i = 0; i < NUM_CUBES; i++){
         if (i > 0) cout << ", ";
         for(int j = 0; j < CUBE_SIDES; j++) {
-            cout << cubes[i][j];
+            cout << cubes[i][j]; //TODO: Samma som nedan. Viktigaste är egentligen bara att vi löser så att denna också returnerar char/str.
         }
     }
 }
@@ -53,60 +53,57 @@ void Boggle::shuffleCubes() {
 void Boggle::printCubeSide() {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
     for (int i = 0; i < NUM_CUBES; i++) {
         if (i == 4 || i == 8 || i == 12) cout << endl;
-        cout << cubes[i][0];
+        cout << cubes[i][0]; //TODO: Ta bort detta. Denna funktion kommer istället behöva returnera en char/str och så får vi printa i play..
     }
 }
 
-void Boggle::boardChoice() {
-    cout << "Do you wish to generate a random board? (y/n): ";
-    int check = 0;
-    while (check == 0) {
-        string answer;
-        getline(cin, answer);
-        answer = trim(toLowerCase(answer));
-        if (startsWith(answer, 'y')) {
-            shuffleCubes();
-            printCubeSide();
-            check = 1;
-        } else if (startsWith(answer, 'n')) {
-            playersOwnBoard();
-            printCubeSide();
-            check = 1;
-        } else {
-        cout << "Please type a word that begins with 'y' or 'n'." << endl;
-        }
+bool Boggle::boardChoice(string &answer) {
+    answer = trim(toLowerCase(answer));
+    if (startsWith(answer, 'y')) {
+        shuffleCubes();
+        printCubeSide(); //TODO: Ta bort denna, måste in i boggleplay
+        return true;
+    } else {
+        return false;
     }
 }
 
-void Boggle::playersOwnBoard() {
-    cout << "Please enter 16 letters that you want to use: ";
-    int check = 0;
-    string letters;
+bool Boggle::checkRandomAnswer(string &answer) {
+    if (!startsWith(answer, 'y') && !startsWith(answer, 'n')) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+
+void Boggle::playersOwnBoard(string &letters) {
+    letters = trim(toUpperCase(letters));
+    for (int i = 0; i < NUM_CUBES; i++) {
+        cubes[i][0] = letters[i];
+    }
+}
+
+int Boggle::checkBoardString(string &letters) {
     bool condition = true;
 
-    while (check == 0) {
-        getline(cin, letters);
-        for (unsigned int i = 0; i < letters.size(); i++) {
-            if (ALPHABET.find(letters[i]) == string::npos) {
-                condition = false;
-                break;
-            }
+    for (unsigned int i = 0; i < letters.size(); i++) {
+        if (ALPHABET.find(letters[i]) == string::npos) {
+            condition = false;
+            break;
         }
-        if (letters.size() != 16 && !condition) {
-            condition = true;
-            cout << "Please enter 16 letters from the alphabet: ";
-        } else if (letters.size() != 16) {
-            condition = true;
-            cout << "Make sure you insert 16 letters: ";
-        } else if (!condition) {
-            condition = true;
-            cout << "Make sure you only insert letters: ";
-        } else {
-            letters = trim(toUpperCase(letters));
-            check = 1;
-            for (int i = 0; i < NUM_CUBES; i++) {
-                cubes[i][0] = letters[i];
-            }
-        }
+    }
+    if (letters.size() != 16 && !condition) {
+        condition = true;
+        return 1;
+    } else if (letters.size() != 16) {
+        condition = true;
+        return 2;
+    } else if (!condition) {
+        condition = true;
+        return 3;
+    } else {
+        return 0;
     }
 }

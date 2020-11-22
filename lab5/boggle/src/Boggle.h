@@ -28,8 +28,11 @@ public:
     void printCubes();
     void shuffleCubes();
     void printCubeSide();
-    void boardChoice();
-    void playersOwnBoard();
+    bool boardChoice(string &answer);
+    bool checkRandomAnswer(string &answer);
+    void playersOwnBoard(string &goodboardstring);
+    int checkBoardString(string &letters);
+
 
 
     // TODO: decide the public member functions and declare them
