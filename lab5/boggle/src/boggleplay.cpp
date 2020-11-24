@@ -16,44 +16,91 @@
  * Plays one game of Boggle using the given boggle game state object.
  */
 
+string boardletters;
+
+
+void printCubeSides(Boggle &boggle) {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
+    for (int i = 0; i < 16 ; i++) {
+        if (i == 4 || i == 8 || i == 12) cout << endl;
+        cout << boggle.cubeSide()[i];
+    }
+}
+
+void checkValidInputString(int& validcheck, Boggle& boggle) {
+    while (validcheck != 0) {
+        if (validcheck == 1) {
+            cout << "Please enter 16 letters from the alphabet: ";
+            getline(cin, boardletters);
+            validcheck = boggle.checkBoardString(boardletters);
+        } else if (validcheck == 2) {
+            cout << "Make sure you insert 16 letters: ";
+            getline(cin, boardletters);
+            validcheck = boggle.checkBoardString(boardletters);
+        } else {
+            cout << "Make sure you only insert letters: ";
+            getline(cin, boardletters);
+            validcheck = boggle.checkBoardString(boardletters);
+        }
+    }
+}
+
+void playerWords(Boggle& boggle){
+    cout << "nåt bra meddelande med info och så" << endl;
+    string word;
+    getline(cin, word);
+
+   while (word != ""){
+       int checker = boggle.wordCheck(word, boggle.getWords());
+
+       if (checker == 1) {
+           cout << "Word is too short. Make sure it's atleast 4 letters: ";
+           getline(cin, word);
+
+       } else if (checker == 2) {
+           cout << "You've already fount this word. Make sure the word is unique: ";
+           getline(cin, word);
+
+       } else if (checker == 3) {
+           cout << "Word is not in dictionary. Please enter a new word: ";
+           getline(cin, word);
+       } else {
+
+       }
+
+    }
+
+}
+
+
 //TODO: Funderar på om vi vill bryta ut funktioner som används nedan till hjälpfunktioner i boggleplay,
 //så att det inte blir för mkt i playOnegGame
 void playOneGame(Boggle& boggle) {
-    string randomboard;
-    string boardletters;
+    string randomboardanswer;
 
     cout << "Do you wish to generate a random board? (y/n): ";
-    getline(cin, randomboard);
-    bool validinput = boggle.checkRandomAnswer(randomboard);
+    getline(cin, randomboardanswer);
+    bool validinput = boggle.checkRandomAnswer(randomboardanswer);
+
     while(!validinput) {
         cout << "Please type a word that begins with 'y' or 'n'." << endl;
-        getline(cin, randomboard);
-        validinput = boggle.checkRandomAnswer(randomboard);
+        getline(cin, randomboardanswer);
+        validinput = boggle.checkRandomAnswer(randomboardanswer);
     }
 
-    if (!boggle.boardChoice(randomboard)) {
+    if (!boggle.boardChoice(randomboardanswer)) {
         cout << "Please enter 16 letters that you want to use: ";
         getline(cin, boardletters);
         int validcheck = boggle.checkBoardString(boardletters);
-        while (validcheck != 0) {
-            if (validcheck == 1) {
-                cout << "Please enter 16 letters from the alphabet: ";
-                getline(cin, boardletters);
-                validcheck = boggle.checkBoardString(boardletters);
-            } else if (validcheck == 2) {
-                cout << "Make sure you insert 16 letters: ";
-                getline(cin, boardletters);
-                validcheck = boggle.checkBoardString(boardletters);
-            } else {
-                cout << "Make sure you only insert letters: ";
-                getline(cin, boardletters);
-                validcheck = boggle.checkBoardString(boardletters);
-            }
-        }
-        boggle.playersOwnBoard(boardletters);
-        boggle.printCubeSide();
+
+        checkValidInputString(validcheck, boggle);
     }
+        printCubeSides(boggle);
 }
+
+/*
+ * Help functions
+ */
+
 
 /*
  * Erases all currently visible text from the output console.

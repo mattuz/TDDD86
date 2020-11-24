@@ -5,12 +5,16 @@
 // TODO: remove this comment header and replace it with your own
 
 #include <sstream>
+#include <fstream>
 #include "Boggle.h"
 #include "random.h"
 #include "shuffle.h"
 #include "strlib.h"
+
 using namespace std;
 
+set<string> words;
+static set<string> dictionary;
 static const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int NUM_CUBES = 16;   // the number of cubes in the game
 static const int CUBE_SIDES = 6;   // the number of sides on each cube
@@ -27,6 +31,21 @@ Boggle::Boggle() {
             cubes[i][j] = CUBES[i][j];
         }
     }
+}
+
+void Boggle::createDict() {
+    string line;
+    ifstream dictFile(DICTIONARY_FILE);
+    if (dictFile.is_open()) {
+        while (getline(dictFile, line)) {
+            dictionary.insert(line);
+        }
+        dictFile.close();
+    }
+}
+
+set<string> Boggle::getWords() {
+    return words;
 }
 
 char Boggle::getCubes(){
@@ -50,32 +69,31 @@ void Boggle::shuffleCubes() {
     }
 }
 
-void Boggle::printCubeSide() {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
+string Boggle::cubeSide() {  //Converts the sides into a string that can be printed in boggleplay.
+    string allsides;
     for (int i = 0; i < NUM_CUBES; i++) {
-        if (i == 4 || i == 8 || i == 12) cout << endl;
-        cout << cubes[i][0]; //TODO: Ta bort detta. Denna funktion kommer istället behöva returnera en char/str och så får vi printa i play..
+        allsides += cubes[i][0];
     }
+    return allsides;
 }
 
-bool Boggle::boardChoice(string &answer) {
+bool Boggle::boardChoice(string &answer) { //Randomboard (y/n)?
     answer = trim(toLowerCase(answer));
     if (startsWith(answer, 'y')) {
         shuffleCubes();
-        printCubeSide(); //TODO: Ta bort denna, måste in i boggleplay
         return true;
     } else {
         return false;
     }
 }
 
-bool Boggle::checkRandomAnswer(string &answer) {
+bool Boggle::checkRandomAnswer(string &answer) { //validanswer (y/n)?
     if (!startsWith(answer, 'y') && !startsWith(answer, 'n')) {
         return false;
     } else {
         return true;
     }
 }
-
 
 
 void Boggle::playersOwnBoard(string &letters) {
@@ -104,6 +122,24 @@ int Boggle::checkBoardString(string &letters) {
         condition = true;
         return 3;
     } else {
+        playersOwnBoard(letters);
         return 0;
     }
 }
+
+//{}
+//[]
+int Boggle::wordCheck(string& word, set<string>& words) {
+    if (word.length() < 4) {
+        return 1;
+
+    } else if (words.count(word) != 0) {
+        return 2;
+    } else if (dictionary.count(word) == 0) {
+        return 3;
+    } else {
+        return 0;
+    }
+
+}
+

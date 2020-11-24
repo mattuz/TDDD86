@@ -11,27 +11,32 @@
 #include <string>
 #include "vector.h"
 #include "grid.h"
+#include <set>
 // TODO: include any other header files you need
 
 using namespace std;
 
 class Boggle {
 public:
-    //string ALPHABET;
     const string DICTIONARY_FILE = "EnglishWords.dat";
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
 
-    Boggle();
 
+    Boggle();
+    set<string> getWords();
+
+    void createDict();
     char getCubes();
     void printCubes();
     void shuffleCubes();
-    void printCubeSide();
+    string cubeSide();
     bool boardChoice(string &answer);
     bool checkRandomAnswer(string &answer);
     void playersOwnBoard(string &goodboardstring);
     int checkBoardString(string &letters);
+
+    int wordCheck(string& word, set<string>& words);
 
 
 

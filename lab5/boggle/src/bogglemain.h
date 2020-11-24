@@ -14,6 +14,12 @@
 using namespace std;
 
 void intro();
+
+void printCubeSides(Boggle& boggle);
+void checkValidInputString(int& validcheck);
+void playerWords(Boggle& boggle);
+
+
 void playOneGame(Boggle& boggle);
 bool yesOrNo(string prompt);
 void clearConsole();
