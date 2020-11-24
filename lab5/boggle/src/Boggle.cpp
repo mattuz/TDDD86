@@ -127,8 +127,6 @@ int Boggle::checkBoardString(string &letters) {
     }
 }
 
-//{}
-//[]
 int Boggle::wordCheck(string& word, set<string>& words) {
     if (word.length() < 4) {
         return 1;
