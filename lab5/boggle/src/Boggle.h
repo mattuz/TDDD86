@@ -12,6 +12,7 @@
 #include "vector.h"
 #include "grid.h"
 #include <set>
+#include "lexicon.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -24,9 +25,10 @@ public:
 
 
     Boggle();
-    set<string> getWords();
+    set<string>& getWords();
+    void makeLexicon();
+    const Lexicon& getDictionary();
 
-    void createDict();
     char getCubes();
     void printCubes();
     void shuffleCubes();
@@ -36,7 +38,7 @@ public:
     void playersOwnBoard(string &goodboardstring);
     int checkBoardString(string &letters);
 
-    int wordCheck(string& word, set<string>& words);
+    int wordCheck(string& word);
 
 
 
@@ -45,6 +47,8 @@ public:
 private:
     // TODO: decide the private member variables/functions and declare them
     char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
+    Lexicon dictionary;
+    set<string> words;
 
 
 };

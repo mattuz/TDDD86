@@ -13,8 +13,6 @@
 
 using namespace std;
 
-set<string> words;
-static set<string> dictionary;
 static const string ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const int NUM_CUBES = 16;   // the number of cubes in the game
 static const int CUBE_SIDES = 6;   // the number of sides on each cube
@@ -25,6 +23,7 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
    "EIOSST", "ELRTTY", "HIMNQU", "HLNNRZ"
 };
 
+
 Boggle::Boggle() {
     for(int i = 0; i < NUM_CUBES; i++){
         for(int j = 0; j < CUBE_SIDES; j++){
@@ -33,18 +32,16 @@ Boggle::Boggle() {
     }
 }
 
-void Boggle::createDict() {
-    string line;
-    ifstream dictFile(DICTIONARY_FILE);
-    if (dictFile.is_open()) {
-        while (getline(dictFile, line)) {
-            dictionary.insert(line);
-        }
-        dictFile.close();
-    }
+void Boggle::makeLexicon() {
+    dictionary = *new Lexicon(DICTIONARY_FILE);
 }
 
-set<string> Boggle::getWords() {
+const Lexicon& Boggle::getDictionary() {
+    return dictionary;
+}
+
+
+set<string>& Boggle::getWords() {
     return words;
 }
 
@@ -127,15 +124,20 @@ int Boggle::checkBoardString(string &letters) {
     }
 }
 
-int Boggle::wordCheck(string& word, set<string>& words) {
+int Boggle::wordCheck(string& word) {
     if (word.length() < 4) {
         return 1;
 
     } else if (words.count(word) != 0) {
         return 2;
-    } else if (dictionary.count(word) == 0) {
+    } else if (!dictionary.contains(word)) {
+
         return 3;
     } else {
+
+        word = trim(toUpperCase(word));
+        words.insert(word);
+
         return 0;
     }
 

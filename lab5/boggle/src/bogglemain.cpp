@@ -28,7 +28,7 @@ int main() {
 
     // play games repeatedly until user decides to quit
     Boggle boggle;
-    boggle.createDict();
+    boggle.makeLexicon();
     while (true) {
         playOneGame(boggle);
 

@@ -20,10 +20,12 @@ string boardletters;
 
 
 void printCubeSides(Boggle &boggle) {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
+    cout << "It's your turn!" << endl;
     for (int i = 0; i < 16 ; i++) {
-        if (i == 4 || i == 8 || i == 12) cout << endl;
+        if (i % 4 == 0) cout << endl;
         cout << boggle.cubeSide()[i];
     }
+    cout << endl;
 }
 
 void checkValidInputString(int& validcheck, Boggle& boggle) {
@@ -45,36 +47,40 @@ void checkValidInputString(int& validcheck, Boggle& boggle) {
 }
 
 void playerWords(Boggle& boggle){
-    cout << "nåt bra meddelande med info och så" << endl;
     string word;
     getline(cin, word);
 
    while (word != ""){
-       int checker = boggle.wordCheck(word, boggle.getWords());
+       int checker = boggle.wordCheck(word);
 
        if (checker == 1) {
            cout << "Word is too short. Make sure it's atleast 4 letters: ";
            getline(cin, word);
 
        } else if (checker == 2) {
-           cout << "You've already fount this word. Make sure the word is unique: ";
+           cout << "You've already found this word. Make sure the word is unique: ";
            getline(cin, word);
 
        } else if (checker == 3) {
            cout << "Word is not in dictionary. Please enter a new word: ";
            getline(cin, word);
        } else {
-
+           cout << "You've found a word!" << endl;
+           cout << "{" << " ";
+           for (auto& x : boggle.getWords()) {
+               cout << x << " ";
+           }
+           cout << "}" << endl;
+           getline(cin, word);
        }
-
     }
-
 }
 
 
 //TODO: Funderar på om vi vill bryta ut funktioner som används nedan till hjälpfunktioner i boggleplay,
 //så att det inte blir för mkt i playOnegGame
 void playOneGame(Boggle& boggle) {
+    boggle.getWords().clear();
     string randomboardanswer;
 
     cout << "Do you wish to generate a random board? (y/n): ";
@@ -95,6 +101,8 @@ void playOneGame(Boggle& boggle) {
         checkValidInputString(validcheck, boggle);
     }
         printCubeSides(boggle);
+
+        playerWords(boggle);
 }
 
 /*
