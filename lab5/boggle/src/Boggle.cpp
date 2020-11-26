@@ -10,6 +10,7 @@
 #include "random.h"
 #include "shuffle.h"
 #include "strlib.h"
+#include "math.h"
 
 using namespace std;
 
@@ -49,6 +50,10 @@ char Boggle::getCubes(){
     return **cubes;
 }
 
+char& Boggle::getCubeSides() {
+    return **cubesides;
+}
+
 //TODO: Kan vara bättre att bara dra ut for (int i... < NUM_CUBES...) och kör det som egen hjälpfunktion. Används mycket.
 
 void Boggle::printCubes(){ //Mainly used for testing. Prints the entire cube, not the current side.
@@ -66,12 +71,11 @@ void Boggle::shuffleCubes() {
     }
 }
 
-string Boggle::cubeSide() {  //Converts the sides into a string that can be printed in boggleplay.
-    string allsides;
+void Boggle::cubeSide() {  //Converts the sides into a string that can be printed in boggleplay.
     for (int i = 0; i < NUM_CUBES; i++) {
-        allsides += cubes[i][0];
+        int r = int (round(i/4));
+        cubesides[r][i%4] = cubes[i][0];
     }
-    return allsides;
 }
 
 bool Boggle::boardChoice(string &answer) { //Randomboard (y/n)?
@@ -140,6 +144,10 @@ int Boggle::wordCheck(string& word) {
 
         return 0;
     }
+
+}
+
+void Boggle::possibleWordsOnBoard() {
 
 }
 

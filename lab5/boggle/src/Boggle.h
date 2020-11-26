@@ -30,13 +30,17 @@ public:
     const Lexicon& getDictionary();
 
     char getCubes();
+    char& getCubeSides();
+
     void printCubes();
     void shuffleCubes();
-    string cubeSide();
+    void cubeSide();
     bool boardChoice(string &answer);
     bool checkRandomAnswer(string &answer);
     void playersOwnBoard(string &goodboardstring);
     int checkBoardString(string &letters);
+
+    void possibleWordsOnBoard();
 
     int wordCheck(string& word);
 
@@ -49,6 +53,7 @@ private:
     char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
     Lexicon dictionary;
     set<string> words;
+    char cubesides[4][4] = {{},{},{},{}};
 
 
 };

@@ -19,11 +19,18 @@
 string boardletters;
 
 
-void printCubeSides(Boggle &boggle) {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
+void printCubeSides(Boggle& boggle) {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
     cout << "It's your turn!" << endl;
-    for (int i = 0; i < 16 ; i++) {
-        if (i % 4 == 0) cout << endl;
-        cout << boggle.cubeSide()[i];
+    //char arrayer = boggle.getCubeSides();
+    cout << boggle.getCubeSides();
+    //boggle.cubeSide();
+    for (int i = 0; i < 4 ; i++) {
+        cout << endl;
+        for (int j = 0; j < 4; j++) {
+            //arrayer[i][j];
+            boggle.getCubeSides()[i][j];
+        }
+        //cout << boggle.cubeSide()[i];
     }
     cout << endl;
 }
