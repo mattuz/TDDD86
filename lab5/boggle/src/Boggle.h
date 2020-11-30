@@ -31,7 +31,7 @@ public:
     const Lexicon& getDictionary();
 
     char getCubes();
-    char& getCubeSides();
+    Grid<char>& getCubeSides();
 
     void printCubes();
     void shuffleCubes();
@@ -42,8 +42,10 @@ public:
     int checkBoardString(string &letters);
 
     void possibleWordsOnBoard();
+    bool isValidPath(string word, int row, int col);
 
     int wordCheck(string& word);
+    void removeInvalidWords();
     //tuple neighbours(char array, int i, int j, int rowSize, int colSize);
 
 
@@ -55,8 +57,9 @@ private:
     char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
     Lexicon dictionary;
     set<string> words;
-    char cubesides[4][4] = {{},{},{},{}};
+    Grid<char> cubesides = Grid<char>(4,4);
     bool visited[4][4] = {{},{},{},{}};
+    int playerscore;
 
 
 };

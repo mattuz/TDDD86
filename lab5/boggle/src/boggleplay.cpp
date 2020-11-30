@@ -21,14 +21,11 @@ string boardletters;
 
 void printCubeSides(Boggle& boggle) {  //Always prints the first letter in "i" cube. Migh want to add randomness here as well if necessary.
     cout << "It's your turn!" << endl;
-    //char arrayer = boggle.getCubeSides();
-    cout << boggle.getCubeSides();
-    //boggle.cubeSide();
     for (int i = 0; i < 4 ; i++) {
         cout << endl;
         for (int j = 0; j < 4; j++) {
             //arrayer[i][j];
-            boggle.getCubeSides()[i][j];
+            cout << boggle.getCubeSides().get(i, j);
         }
         //cout << boggle.cubeSide()[i];
     }
@@ -107,9 +104,17 @@ void playOneGame(Boggle& boggle) {
 
         checkValidInputString(validcheck, boggle);
     }
+        boggle.cubeSide();
         printCubeSides(boggle);
 
         playerWords(boggle);
+        boggle.removeInvalidWords();
+        cout << "Nya listan " << endl;
+        cout << "{" << " ";
+        for (auto& x : boggle.getWords()) {
+            cout << x << " ";
+        }
+        cout << "}" << endl;
 }
 
 /*
