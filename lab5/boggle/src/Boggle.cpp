@@ -29,6 +29,7 @@ Boggle::Boggle() {
     for(int i = 0; i < NUM_CUBES; i++){
         for(int j = 0; j < CUBE_SIDES; j++){
             cubes[i][j] = CUBES[i][j];
+            visited[i][j] = false;
         }
     }
 }
@@ -146,6 +147,21 @@ int Boggle::wordCheck(string& word) {
     }
 
 }
+
+
+/*tuple<int, int> Boggle::neighbours(char array, int i, int j, int rowSize, int colSize){
+    Vector<tuple> neighbours;
+    for (int row = i - 1; row <= i + 1 && row < rowSize; row++)
+            for (int col = j - 1; col <= j + 1 && col < colSize; col++)
+                if (row >= 0 && col >= 0){
+                    tuple<int, int> t = make_tuple(i, j);
+                    neighbours.push_back(t);
+                }
+
+    return neighbours;
+}
+*/
+
 
 void Boggle::possibleWordsOnBoard() {
 

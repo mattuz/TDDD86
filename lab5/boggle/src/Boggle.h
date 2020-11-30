@@ -13,6 +13,7 @@
 #include "grid.h"
 #include <set>
 #include "lexicon.h"
+#include <tuple>
 // TODO: include any other header files you need
 
 using namespace std;
@@ -43,6 +44,7 @@ public:
     void possibleWordsOnBoard();
 
     int wordCheck(string& word);
+    //tuple neighbours(char array, int i, int j, int rowSize, int colSize);
 
 
 
@@ -54,6 +56,7 @@ private:
     Lexicon dictionary;
     set<string> words;
     char cubesides[4][4] = {{},{},{},{}};
+    bool visited[4][4] = {{},{},{},{}};
 
 
 };
