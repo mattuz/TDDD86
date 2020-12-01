@@ -29,9 +29,10 @@ public:
     set<string>& getWords();
     void makeLexicon();
     const Lexicon& getDictionary();
-
+    set<string>& getComputerwords();
     char getCubes();
-    Grid<char>& getCubeSides();
+    Grid<char>& getCubesides();
+    void setVisitedFalse();
 
     void printCubes();
     void shuffleCubes();
@@ -41,11 +42,13 @@ public:
     void playersOwnBoard(string &goodboardstring);
     int checkBoardString(string &letters);
 
-    void possibleWordsOnBoard();
+    void findWordsOnBoard();
     bool isValidPath(string word, int row, int col);
-
+    void explorePaths(string wordSoFar, int row, int col);
+    bool isValidWord(string word);
     int wordCheck(string& word);
     void removeInvalidWords();
+    bool isOnBoard(string word);
     //tuple neighbours(char array, int i, int j, int rowSize, int colSize);
 
 
@@ -57,8 +60,9 @@ private:
     char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
     Lexicon dictionary;
     set<string> words;
+    set<string> computerwords;
     Grid<char> cubesides = Grid<char>(4,4);
-    bool visited[4][4] = {{},{},{},{}};
+    Grid<bool> visited = Grid<bool>(4,4);
     int playerscore;
 
 

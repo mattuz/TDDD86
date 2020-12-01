@@ -29,7 +29,6 @@ Boggle::Boggle() {
     for(int i = 0; i < NUM_CUBES; i++){
         for(int j = 0; j < CUBE_SIDES; j++){
             cubes[i][j] = CUBES[i][j];
-            //visited[i][j] = false;
         }
     }
 }
@@ -51,8 +50,12 @@ char Boggle::getCubes(){
     return **cubes;
 }
 
-Grid<char>& Boggle::getCubeSides() {
+Grid<char>& Boggle::getCubesides() {
     return cubesides;
+}
+
+set<string>& Boggle::getComputerwords(){
+    return computerwords;
 }
 
 //TODO: Kan vara bättre att bara dra ut for (int i... < NUM_CUBES...) och kör det som egen hjälpfunktion. Används mycket.
@@ -64,6 +67,14 @@ void Boggle::printCubes(){ //Mainly used for testing. Prints the entire cube, no
             cout << cubes[i][j]; //TODO: Samma som nedan. Viktigaste är egentligen bara att vi löser så att denna också returnerar char/str.
         }
     }
+}
+void Boggle::setVisitedFalse(){
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            visited.set(i,j,false);
+        }
+    }
+
 }
 
 void Boggle::shuffleCubes() {
@@ -138,7 +149,9 @@ int Boggle::wordCheck(string& word) {
     } else if (!dictionary.contains(word)) {
 
         return 3;
-    } else {
+    } else if(!isOnBoard(word)){
+        return 4;
+    }else {
 
         word = trim(toUpperCase(word));
         words.insert(word);
@@ -148,65 +161,93 @@ int Boggle::wordCheck(string& word) {
 
 }
 
-void Boggle::possibleWordsOnBoard() {
+bool Boggle::isValidWord(string word){
+    return(word.length() > 3 && dictionary.contains(word) && words.count(word) == 0 && computerwords.count(word) == 0);
 
+}
+void Boggle::explorePaths(string wordsofar, int row, int col){
+    //cout<<"explorepaths"<<endl;
+    if(isValidWord(wordsofar)){
+        computerwords.insert(wordsofar);
+    }
+
+    for (int i = row - 1; i <= row + 1 && i < 4; i++){
+        for (int j = col - 1; j <= col + 1 && j < 4; j++){
+            if (i >= 0 && j >= 0 && !(i == row && j == col) && !visited.get(i,j)){
+                wordsofar+=cubesides.get(i, j);
+
+                if(dictionary.containsPrefix(wordsofar)){
+                    //cout<<"prefix ex.board() "<<endl;
+                    //cout<<"wordsofar= "<<wordsofar<<endl;
+                    visited.set(i, j, true);
+                    explorePaths(wordsofar, i, j);
+                }
+                wordsofar.erase(wordsofar.size()-1);
+            }
+        }
+    }
+    setVisitedFalse();
+}
+
+void Boggle::findWordsOnBoard(){
+    string wordsofar;
+    //cout<<"wordsofar = "<<wordsofar<<endl;
+    //cout<<"findwordsonboard"<<endl;
+    for(int row = 0; row < 4; row++){
+        for(int col = 0; col < 4; col++){
+            string firstletter;
+            firstletter += cubesides.get(row, col);
+            if(dictionary.containsPrefix(firstletter)){
+                visited.set(row, col, true);
+                wordsofar = "";
+                wordsofar += cubesides.get(row, col);
+                explorePaths(wordsofar, row, col);
+            }
+        }
+    }
+    setVisitedFalse();
+}
+
+bool Boggle::isOnBoard(string word){
+    word = trim(toUpperCase(word));
+    int present = 0;
+    for(int row = 0; row < 4; row++){
+        for(int col = 0; col < 4; col++){
+            if(word[0] == cubesides.get(row, col)){
+                visited.set(row, col, true);
+                string newword = word;
+                newword.erase(0,1);
+                if(isValidPath(newword, row, col)){
+                    present++;
+                }
+            }
+        }
+    }
+    return present > 0;
 }
 
 bool Boggle::isValidPath(string word, int row, int col){ //TODO for-loop i boggleplay
-
     string w = word;
-    cout << "isvalid() ord: "<< w << endl;
-
     if(word == ""){
-       cout << "färdig (tom sträng) " << endl;
+        setVisitedFalse();
         return true;
     }
     for (int i = row - 1; i <= row + 1 && i < 4; i++){
         for (int j = col - 1; j <= col + 1 && j < 4; j++){
-            if (i >= 0 && j >= 0 && !(i == row && j ==col)){
-                cout << "granne: " << cubesides.get(i, j) << endl;
+            if (i >= 0 && j >= 0 && !(i == row && j ==col) && !visited.get(i,j)){
 
                 if(word[0] == cubesides.get(i, j)){
+                    visited.set(i, j, true);
                     w.erase(0,1);
 
-                    //cout << "granne = rätt bokstav " << endl;
                     return isValidPath(w, i, j);
                 }
             }
         }
     }
-    //cout << "finns inte "<< endl;
+    setVisitedFalse();
     return false;
 }
 
-void Boggle::removeInvalidWords(){
-    string w;
-    set<string> newwords = words;
-    for(auto word : words){
-        bool present =false;
-        w = word;
-        cout << word << endl;
 
-        for(int row = 0; row < 4; row++){
-            for(int col = 0; col < 4; col++){
-                if(word[0] == cubesides.get(row, col)){
-                    present = true;
-                    w.erase(0,1);
-                    if( !isValidPath(w, row, col) ){
-                        //cout << "tas bort "<< endl;
 
-                        //words.erase(word);
-                        //word = "";
-                        present = false;
-                    }
-                }
-            }
-        }
-        if(!present){
-            newwords.erase(word);
-            //words.set(word) = "";
-            //cout<<"tar bort PGA fel första"<< endl;
-        }
-    }
-    words = newwords;
-}

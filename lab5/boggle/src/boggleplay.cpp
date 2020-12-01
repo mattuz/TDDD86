@@ -25,7 +25,7 @@ void printCubeSides(Boggle& boggle) {  //Always prints the first letter in "i" c
         cout << endl;
         for (int j = 0; j < 4; j++) {
             //arrayer[i][j];
-            cout << boggle.getCubeSides().get(i, j);
+            cout << boggle.getCubesides().get(i, j);
         }
         //cout << boggle.cubeSide()[i];
     }
@@ -68,6 +68,12 @@ void playerWords(Boggle& boggle){
        } else if (checker == 3) {
            cout << "Word is not in dictionary. Please enter a new word: ";
            getline(cin, word);
+
+       } else if(checker == 4){
+           boggle.setVisitedFalse();
+           cout << "Word is not on the board. Please enter a new word: ";
+           getline(cin, word);
+
        } else {
            cout << "You've found a word!" << endl;
            cout << "{" << " ";
@@ -86,6 +92,7 @@ void playerWords(Boggle& boggle){
 void playOneGame(Boggle& boggle) {
     boggle.getWords().clear();
     string randomboardanswer;
+    boggle.getComputerwords().clear();
 
     cout << "Do you wish to generate a random board? (y/n): ";
     getline(cin, randomboardanswer);
@@ -108,13 +115,13 @@ void playOneGame(Boggle& boggle) {
         printCubeSides(boggle);
 
         playerWords(boggle);
-        boggle.removeInvalidWords();
-        cout << "Nya listan " << endl;
-        cout << "{" << " ";
-        for (auto& x : boggle.getWords()) {
-            cout << x << " ";
+        boggle.findWordsOnBoard();
+        for(auto x : boggle.getComputerwords()){
+            cout<<x<<endl;
         }
-        cout << "}" << endl;
+
+
+
 }
 
 /*
