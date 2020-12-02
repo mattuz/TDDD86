@@ -18,6 +18,8 @@ void intro();
 void printCubeSides(Boggle& boggle);
 void checkValidInputString(int& validcheck);
 void playerWords(Boggle& boggle);
+void printPlayerWordList(Boggle& boggle);
+void printComputerWordList(Boggle& boggle);
 
 
 void playOneGame(Boggle& boggle);

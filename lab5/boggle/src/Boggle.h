@@ -32,8 +32,11 @@ public:
     set<string>& getComputerwords();
     char getCubes();
     int getPlayerscore();
+    int getComputerscore();
     Grid<char>& getCubesides();
     void setVisitedFalse();
+    void setScoreZero();
+
 
     void printCubes();
     void shuffleCubes();
@@ -64,7 +67,8 @@ private:
     set<string> computerwords;
     Grid<char> cubesides = Grid<char>(4,4);
     Grid<bool> visited = Grid<bool>(4,4);
-    int playerscore = 0;
+    int playerscore;
+    int computerscore;
 
 
 };

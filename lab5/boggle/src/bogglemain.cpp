@@ -73,6 +73,7 @@ bool yesOrNo(string prompt) {
         getline(cin, answer);
         answer = trim(toLowerCase(answer));
         if (startsWith(answer, 'y')) {
+            clearConsole();
             return true;
         } else if (startsWith(answer, 'n')) {
             return false;

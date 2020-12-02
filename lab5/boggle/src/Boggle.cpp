@@ -37,6 +37,11 @@ void Boggle::makeLexicon() {
     dictionary = *new Lexicon(DICTIONARY_FILE);
 }
 
+void Boggle::setScoreZero() {
+    playerscore = 0;
+    computerscore = 0;
+}
+
 const Lexicon& Boggle::getDictionary() {
     return dictionary;
 }
@@ -61,7 +66,11 @@ int Boggle::getPlayerscore(){
     return playerscore;
 }
 
-//TODO: Kan vara bättre att bara dra ut for (int i... < NUM_CUBES...) och kör det som egen hjälpfunktion. Används mycket.
+int Boggle::getComputerscore() {
+    return computerscore;
+}
+
+
 
 void Boggle::printCubes(){ //Mainly used for testing. Prints the entire cube, not the current side.
     for(int i = 0; i < NUM_CUBES; i++){
@@ -169,10 +178,12 @@ bool Boggle::isValidWord(string word){
     return(word.length() > 3 && dictionary.contains(word) && words.count(word) == 0 && computerwords.count(word) == 0);
 
 }
+
 void Boggle::explorePaths(string wordsofar, int row, int col){
 
     if(isValidWord(wordsofar)){
         computerwords.insert(wordsofar);
+        computerscore += wordsofar.size() - 3;
     }
 
     for (int i = row - 1; i <= row + 1 && i < 4; i++){
@@ -225,10 +236,11 @@ bool Boggle::isOnBoard(string word){
             }
         }
     }
+    setVisitedFalse();
     return present > 0;
 }
 
-bool Boggle::isValidPath(string word, int row, int col){ //TODO for-loop i boggleplay
+bool Boggle::isValidPath(string word, int row, int col){
     string w = word;
     if(word == ""){
         setVisitedFalse();
