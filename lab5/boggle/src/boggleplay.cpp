@@ -24,10 +24,8 @@ void printCubeSides(Boggle& boggle) {  //Always prints the first letter in "i" c
     for (int i = 0; i < 4 ; i++) {
         cout << endl;
         for (int j = 0; j < 4; j++) {
-            //arrayer[i][j];
             cout << boggle.getCubesides().get(i, j);
         }
-        //cout << boggle.cubeSide()[i];
     }
     cout << endl;
 }
@@ -58,29 +56,45 @@ void playerWords(Boggle& boggle){
        int checker = boggle.wordCheck(word);
 
        if (checker == 1) {
+           clearConsole();
+           printCubeSides(boggle);
+
            cout << "Word is too short. Make sure it's atleast 4 letters: ";
            getline(cin, word);
 
        } else if (checker == 2) {
+           clearConsole();
+           printCubeSides(boggle);
+
            cout << "You've already found this word. Make sure the word is unique: ";
            getline(cin, word);
 
        } else if (checker == 3) {
+           clearConsole();
+           printCubeSides(boggle);
+
            cout << "Word is not in dictionary. Please enter a new word: ";
            getline(cin, word);
 
        } else if(checker == 4){
+           clearConsole();
+           printCubeSides(boggle);
+
            boggle.setVisitedFalse();
            cout << "Word is not on the board. Please enter a new word: ";
            getline(cin, word);
 
        } else {
+           clearConsole();
+           printCubeSides(boggle);
+
            cout << "You've found a word!" << endl;
            cout << "{" << " ";
            for (auto& x : boggle.getWords()) {
                cout << x << " ";
            }
            cout << "}" << endl;
+           cout<<"Your score: "<< boggle.getPlayerscore()<<endl;
            getline(cin, word);
        }
     }

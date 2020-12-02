@@ -57,6 +57,9 @@ Grid<char>& Boggle::getCubesides() {
 set<string>& Boggle::getComputerwords(){
     return computerwords;
 }
+int Boggle::getPlayerscore(){
+    return playerscore;
+}
 
 //TODO: Kan vara bättre att bara dra ut for (int i... < NUM_CUBES...) och kör det som egen hjälpfunktion. Används mycket.
 
@@ -155,6 +158,7 @@ int Boggle::wordCheck(string& word) {
 
         word = trim(toUpperCase(word));
         words.insert(word);
+        playerscore += (word.size()-3);
 
         return 0;
     }
@@ -166,7 +170,7 @@ bool Boggle::isValidWord(string word){
 
 }
 void Boggle::explorePaths(string wordsofar, int row, int col){
-    //cout<<"explorepaths"<<endl;
+
     if(isValidWord(wordsofar)){
         computerwords.insert(wordsofar);
     }
@@ -177,26 +181,24 @@ void Boggle::explorePaths(string wordsofar, int row, int col){
                 wordsofar+=cubesides.get(i, j);
 
                 if(dictionary.containsPrefix(wordsofar)){
-                    //cout<<"prefix ex.board() "<<endl;
-                    //cout<<"wordsofar= "<<wordsofar<<endl;
                     visited.set(i, j, true);
                     explorePaths(wordsofar, i, j);
                 }
                 wordsofar.erase(wordsofar.size()-1);
+                visited.set(i,j,false);
             }
         }
     }
-    setVisitedFalse();
 }
 
 void Boggle::findWordsOnBoard(){
     string wordsofar;
-    //cout<<"wordsofar = "<<wordsofar<<endl;
-    //cout<<"findwordsonboard"<<endl;
+
     for(int row = 0; row < 4; row++){
         for(int col = 0; col < 4; col++){
             string firstletter;
             firstletter += cubesides.get(row, col);
+            setVisitedFalse();
             if(dictionary.containsPrefix(firstletter)){
                 visited.set(row, col, true);
                 wordsofar = "";

@@ -31,6 +31,7 @@ public:
     const Lexicon& getDictionary();
     set<string>& getComputerwords();
     char getCubes();
+    int getPlayerscore();
     Grid<char>& getCubesides();
     void setVisitedFalse();
 
@@ -63,7 +64,7 @@ private:
     set<string> computerwords;
     Grid<char> cubesides = Grid<char>(4,4);
     Grid<bool> visited = Grid<bool>(4,4);
-    int playerscore;
+    int playerscore = 0;
 
 
 };
