@@ -4,17 +4,56 @@
 // TODO: remove this comment header
 
 #include "encoding.h"
+//#include "strlib.h"
 // TODO: include any other headers you need
 
 map<int, int> buildFrequencyTable(istream& input) {
-    // TODO: implement this function
     map<int, int> freqTable;
+    char c;
+    
+    while(input.get(c)){
+        map<int, int>::iterator it = freqTable.find(c);
+        if (it != freqTable.end()){
+            freqTable.at(c)++;
+        }
+        else {
+            freqTable.insert(pair<int, int>(c,1));
+        }
+    }
+    freqTable.insert(pair<int, int>(PSEUDO_EOF,1));
+
     return freqTable;
 }
 
 HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     // TODO: implement this function
-    return nullptr;
+    //typedef priority_queue<int, HuffmanNode, HuffmanNode> comp_type;
+
+    //priority_queue<HuffmanNode*, vector<HuffmanNode>, int> nodequeue;
+    //std::priority_queue<HuffmanNode, std::vector<HuffmanNode>, decltype(compare)> nodequeue(compare);
+    auto compare = [](HuffmanNode* a, HuffmanNode* b) { return *a < *b; };
+    priority_queue<HuffmanNode*, vector<HuffmanNode*>, decltype(compare)> nodequeue(compare);
+    HuffmanNode* node;
+    HuffmanNode* root;
+    for(auto& pair: freqTable){
+        node = new HuffmanNode(get<0>(pair), get<1>(pair), nullptr, nullptr); //ev behövs inte nullptr skrivas ut
+        nodequeue.push(node);
+    }
+    while(!nodequeue.empty()){ //det här är fel nu, tar nog den största och inte den minsta??? ska kombineras med hoffmannode <
+        if(nodequeue.size() > 1){
+            HuffmanNode* leftchild = nodequeue.top();
+            nodequeue.pop();
+            HuffmanNode* rightchild = nodequeue.top();
+            nodequeue.pop();
+            node = new HuffmanNode(NOT_A_CHAR, leftchild->count + rightchild->count, leftchild, rightchild);
+            nodequeue.push(node);
+
+        } else {
+            root = nodequeue.top();
+            nodequeue.pop();
+        }
+    }
+    return root;
 }
 
 map<int, string> buildEncodingMap(HuffmanNode* encodingTree) {
