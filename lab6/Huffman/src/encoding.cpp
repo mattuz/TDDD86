@@ -4,8 +4,6 @@
 // TODO: remove this comment header
 
 #include "encoding.h"
-//#include "strlib.h"
-// TODO: include any other headers you need
 
 string stringOfBinaries = "";
 
@@ -94,22 +92,18 @@ void encodeData(istream& input, const map<int, string> &encodingMap, obitstream&
 
         for (auto number : encodingMap.at(c)) {
             if (number == '0') {
-                //cout << '0';
                 output.writeBit(0);
             } else {
                 output.writeBit(1);
-                //cout << '1';
             }
         }
     }
     for (auto number : encodingMap.at(PSEUDO_EOF)) {
         if (number == '0') {
             output.writeBit(0);
-            //cout << '0';
 
         } else {
             output.writeBit(1);
-            //cout << '1';
 
         }
     }
@@ -117,29 +111,27 @@ void encodeData(istream& input, const map<int, string> &encodingMap, obitstream&
 
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
     HuffmanNode* node = encodingTree;
+    int bit = input.readBit();
 
-    while(input.readBit()) {
-        if (input.readBit() == 0) {
+    while(bit != -1) {
+        if (bit == 0) {
             node = node->zero;
             if (node->isLeaf()) {
                 output.put(node->character);
                 node = encodingTree;
             }
-        } else if (input.readBit() == 1) {
+        } else if (bit == 1) {
             node = node->one;
             if (node->isLeaf()) {
                 output.put(node->character);
                 node = encodingTree;
-
-        } else {
-            break;
             }
         }
+        bit = input.readBit();
     }
 }
 
 void compress(istream& input, obitstream& output) {
-    // TODO: implement this function
     unsigned int i = 0;
     map<int, int> freqTable;
     HuffmanNode* encodingTree;
@@ -148,9 +140,7 @@ void compress(istream& input, obitstream& output) {
     freqTable = buildFrequencyTable(input);
     encodingTree = buildEncodingTree(freqTable);
     encodingMap = buildEncodingMap(encodingTree);
-    //Lägg in headern. Lägg in map i output
     output.put('{');
-    cout << '{';
 
     for (auto x : freqTable) {
         string first = to_string(x.first);
@@ -159,7 +149,6 @@ void compress(istream& input, obitstream& output) {
         }
 
         i++;
-        cout << x.first << ':' << x.second;
         output.put(':');
 
         string second = to_string(x.second);
@@ -167,13 +156,11 @@ void compress(istream& input, obitstream& output) {
             output.put(second[i]);
         }
         if (i != freqTable.size()) {
-            cout << ','<< ' ';
             output.put(',');
             output.put(' ');
         }
 
     }
-    cout << '}' << endl;
     output.put('}');
     input.clear();
     input.seekg(0, ios::beg);
@@ -187,15 +174,47 @@ void compress(istream& input, obitstream& output) {
 
 
 void decompress(ibitstream& input, ostream& output) {
-    // TODO: implement this function
     map<int, int> freqTable;
+    HuffmanNode* encodingTree;
     char c;
+    char lastC;
+    string key;
+    string value;
+    bool isKey = false;
+    bool isValue = false;
 
     while (input.get(c)) {
-        if (c == '}') {
-            break;
+        if( c !=' ' && c != '{' && c != ',' && c != ':' && c != '}'){
+
+            if((lastC == '{' || lastC == ' ') || isKey){
+                isKey = true;
+                key += c;
+            }
+            if(lastC == ':' || isValue){
+                isKey = false;
+                isValue = true;
+                value += c;
+            }
+
+        } else if(c == ',' || c == '}'){
+            isValue = false;
+            freqTable.insert(pair<int, int>(stringToInteger(key), stringToInteger(value)));
+            key = "";
+            value = "";
+            if(c == '}'){
+                break;
+            }
+
+        } else if(c == ':'){
+            isKey = false;
         }
+
+        lastC = c;
     }
+
+    encodingTree = buildEncodingTree(freqTable);
+    decodeData(input, encodingTree, output);
+    freeTree(encodingTree);
 }
 
 void freeTree(HuffmanNode* node) {

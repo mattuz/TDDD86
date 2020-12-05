@@ -16,6 +16,8 @@
 #include <queue>
 #include "bitstream.h"
 #include "HuffmanNode.h"
+#include "strlib.h"
+
 using namespace std;
 
 /*
