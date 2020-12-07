@@ -1,33 +1,33 @@
 /**********************************************************************
- *  Mönsterigenkänning readme.txt
+ *  MÃ¶nsterigenkÃ¤nning readme.txt
  **********************************************************************/
 
 /**********************************************************************
- *  Empirisk    Fyll i tabellen nedan med riktiga körtider i sekunder
- *  analys      när det känns vettigt att vänta på hela beräkningen.
- *              Ge uppskattningar av körtiden i övriga fall.
+ *  Empirisk    Fyll i tabellen nedan med riktiga kÃ¶rtider i sekunder
+ *  analys      nÃ¤r det kÃ¤nns vettigt att vÃ¤nta pÃ¥ hela berÃ¤kningen.
+ *              Ge uppskattningar av kÃ¶rtiden i Ã¶vriga fall.
  *
  **********************************************************************/
     
       N       brute			sortering
  -------------------------------------------------------------------
-    150      72,2 ms
-    200	     152,6 ms
-    300	     491,6 ms
-    400	     1 147,6 ms
-    800	     8 947,2 ms
-   1600	     71 366 ms
-   3200	     578 064,6 ms
-   6400	     4 624 516,8 ms
-  12800	     36 996 134,4 ms
+    150      29,4 ms			23,6 ms
+    200	     68,8 ms			43,6 ms
+    300	     209,4 ms			94 ms
+    400	     491,2 ms			158,2 ms
+    800	     3868,2 ms			639,2 ms
+   1600	     30 544 ms			2 607 ms
+   3200	     241 297,6 ms		10 620,2 ms
+   6400	     190 625 1 ms		44 231 ms
+  12800	     15 059 383,2 ms		192 311 ms
 
 
 /**********************************************************************
- *  Teoretisk   Ge ordo-uttryck för värstafallstiden för programmen som
+ *  Teoretisk   Ge ordo-uttryck fÃ¶r vÃ¤rstafallstiden fÃ¶r programmen som
  *  analys      en funktion av N. Ge en kort motivering.
  *
  **********************************************************************/
 
-Brute:
+Brute: O(Nâ´) vid vÃ¤rstafallstiden ty det Ã¤r 4 for-loopar i varandra. 
 
-Sortering:
+Sortering: O(NÂ³) ty 3 for-loopar i varandra.

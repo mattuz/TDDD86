@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input200.txt";
+    string filename = "input150.txt";
     ifstream input;
     input.open(filename);
 
@@ -70,25 +70,31 @@ int main(int argc, char *argv[]) {
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
     auto begin = chrono::high_resolution_clock::now();
-
-    for(auto point : points){
+//*
+    vector<Point> pointsCopy = points;
+    for(auto point : points){ //O(N)
         if(points.size() > 0){
-            fast(point, points);
-            points.erase(points.begin());
+            fast(point, pointsCopy);
+            pointsCopy.erase(pointsCopy.begin());
+
+            for(auto pair : slopes){
+                if(pair.second.size() > 3){
+
+                    for(unsigned int i = 0; i<pair.second.size()-1; i++){
+                        render_line(scene, pair.second[i], pair.second[i+1]);
+                        a.processEvents(); // show rendered line
+                    }
+                }
+            }
+            slopes.clear();
            }
     }
-    for(auto pair : slopes){
-        if(pair.second.size() > 2){
-            for(unsigned int i = 0; i<pair.second.size()-1; i++){
-                render_line(scene, pair.second[i], pair.second[i+1]);
-                a.processEvents(); // show rendered line
-            }
-        }
-    }
 
+
+/*
 
     // iterate through all combinations of 4 points
-    /*for (int i = 0 ; i < N-3 ; ++i) {
+    for (int i = 0 ; i < N-3 ; ++i) {
         for (int j = i+1 ; j < N-2 ; ++j) {
             for (int k = j+1 ; k < N-1 ; ++k) {
                 //only consider fourth point if first three are collinear
@@ -102,7 +108,8 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }*/
+    }
+    //*/
 
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
@@ -122,7 +129,9 @@ void fast(Point point, vector<Point>& points){
                 vector<Point> v;
                 v.push_back(p);
                 slopes.insert(pair<double, vector<Point>>(slope, v));
+                slopes.at(slope).push_back(point);
             }
         }
     }
+
 }
