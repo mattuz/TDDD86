@@ -223,24 +223,70 @@ void Boggle::findWordsOnBoard(){
 
 bool Boggle::isOnBoard(string word){
     word = trim(toUpperCase(word));
-    int present = 0;
     for(int row = 0; row < 4; row++){
         for(int col = 0; col < 4; col++){
             if(word[0] == cubesides.get(row, col)){
                 visited.set(row, col, true);
                 string newword = word;
+                cout << "hittade första bokstaven, skickar nu in: ";
                 newword.erase(0,1);
+                cout << newword << endl;
                 if(isValidPath(newword, row, col)){
-                    present++;
+                    setVisitedFalse();
+                    return true;
                 }
             }
         }
     }
     setVisitedFalse();
-    return present > 0;
+    return false;
 }
 
-bool Boggle::isValidPath(string word, int row, int col){
+bool Boggle::isValidPath(string& word, int row, int col){
+    //cout << endl;
+   // cout << "Ordet är: " << word << endl;
+    string w = word;
+    if(word == ""){
+        cout << "Det fanns!" << endl;
+        setVisitedFalse();
+        return true;
+    }
+    for (int i = row - 1; i <= row + 1 && i < 4; i++){
+        //cout << "första for-loopen" << endl;
+        for (int j = col - 1; j <= col + 1 && j < 4; j++){
+            //cout << "andra for-loopen (utanför !visited): ";
+           // if(i >= 0 && j >= 0 && !(i == row && j ==col)) { //print
+              //  cout << cubesides.get(i,j) << " visited? " << visited.get(i,j)<< endl;
+            //}
+            if (i >= 0 && j >= 0 && !(i == row && j ==col) && !visited.get(i,j)){
+               // cout << cubesides.get(i, j) << " ";
+                if(word[0] == cubesides.get(i, j)){
+
+                    visited.set(i, j, true);
+                    w.erase(0,1);
+
+
+                    //return isValidPath(w, i, j);
+                    if(isValidPath(w, i, j)) {
+                        setVisitedFalse();
+                        return true;
+                    }
+                   // cout << "Vi ska köra vidare.."<<endl;
+                        visited.set(i, j, false);
+                        w = word;
+                        //return isValidPath(word, i, j);
+
+                 }
+             }
+         }
+    }
+    //setVisitedFalse();
+    //cout << "Slutet av funktionen. Ordet är: " << word << endl;
+    return false;
+}
+
+/*bool Boggle::isValidPath(string word, int row, int col) {
+    cout << "isValidPath ordet är: " << word << endl;
     string w = word;
     if(word == ""){
         setVisitedFalse();
@@ -251,17 +297,32 @@ bool Boggle::isValidPath(string word, int row, int col){
             if (i >= 0 && j >= 0 && !(i == row && j ==col) && !visited.get(i,j)){
 
                 if(word[0] == cubesides.get(i, j)){
+                    cout << "Vi hittar rätt bokstav. Ordet är fortfarande: "<<w << endl;
                     visited.set(i, j, true);
                     w.erase(0,1);
+                    cout << "Skickar nu in ordet: " << w << endl;
+                    if (!isValidPath(w, i, j)){
+                        continue;
+                        //return isValidPath(word, i, j);
+                    } else {
+                        return isValidPath(w, i, j);
+                    }
 
-                    return isValidPath(w, i, j);
+                    if (isValidPath(w, i, j, originalWord)) {
+                        return isValidPath(w, i , j, originalWord);
+                    } else {
+                        //setVisitedFalse();
+                        cout << "Loopa vidare" << endl;
+                        continue;
+                    }
                 }
+
             }
         }
     }
     setVisitedFalse();
+    cout << "Fanns inte"<<endl;
     return false;
-}
-
+}*/
 
 

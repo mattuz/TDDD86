@@ -47,7 +47,7 @@ public:
     int checkBoardString(string &letters);
 
     void findWordsOnBoard();
-    bool isValidPath(string word, int row, int col);
+    bool isValidPath(string& word, int row, int col);
     void explorePaths(string wordSoFar, int row, int col);
     bool isValidWord(string word);
     int wordCheck(string& word);
