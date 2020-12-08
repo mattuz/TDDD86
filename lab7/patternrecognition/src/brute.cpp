@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input150.txt";
+    string filename = "input100.txt";
     ifstream input;
     input.open(filename);
 
