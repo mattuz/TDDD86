@@ -72,14 +72,7 @@ int Boggle::getComputerscore() {
 
 
 
-void Boggle::printCubes(){ //Mainly used for testing. Prints the entire cube, not the current side.
-    for(int i = 0; i < NUM_CUBES; i++){
-        if (i > 0) cout << ", ";
-        for(int j = 0; j < CUBE_SIDES; j++) {
-            cout << cubes[i][j]; //TODO: Samma som nedan. Viktigaste är egentligen bara att vi löser så att denna också returnerar char/str.
-        }
-    }
-}
+
 void Boggle::setVisitedFalse(){
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 4; j++){
@@ -95,7 +88,7 @@ void Boggle::shuffleCubes() {
     }
 }
 
-void Boggle::cubeSide() {  //Converts the sides into a string that can be printed in boggleplay.
+void Boggle::cubeSide() {
     for (int i = 0; i < NUM_CUBES; i++) {
         int r = int (round(i/4));
         cubesides.set(r, i%4, cubes[i][0]);
@@ -175,11 +168,6 @@ int Boggle::wordCheck(string& word) {
 
 }
 
-bool Boggle::isValidWord(string word){
-    return(word.length() > 3 && dictionary.contains(word) && words.count(word) == 0 && computerwords.count(word) == 0);
-
-}
-
 void Boggle::explorePaths(string wordsofar, int row, int col){
 
     if(isValidWord(wordsofar)){
@@ -222,6 +210,11 @@ void Boggle::findWordsOnBoard(){
     setVisitedFalse();
 }
 
+bool Boggle::isValidWord(string word){
+    return(word.length() > 3 && dictionary.contains(word) && words.count(word) == 0 && computerwords.count(word) == 0);
+
+}
+
 bool Boggle::isOnBoard(string word){
     word = trim(toUpperCase(word));
     for(int row = 0; row < 4; row++){
@@ -229,9 +222,7 @@ bool Boggle::isOnBoard(string word){
             if(word[0] == cubesides.get(row, col)){
                 visited.set(row, col, true);
                 string newword = word;
-                cout << "hittade första bokstaven, skickar nu in: ";
                 newword.erase(0,1);
-                cout << newword << endl;
                 if(isValidPath(newword, row, col)){
                     setVisitedFalse();
                     return true;
@@ -254,15 +245,12 @@ bool Boggle::isValidPath(string& word, int row, int col){
 
             if (i >= 0 && j >= 0 && !(i == row && j ==col) && !visited.get(i,j)){
                 if(word[0] == cubesides.get(i, j)){
-
                     visited.set(i, j, true);
                     w.erase(0,1);
-
                     if(isValidPath(w, i, j)) {
                         setVisitedFalse();
                         return true;
                     }
-
                         visited.set(i, j, false);
                         w = word;
 

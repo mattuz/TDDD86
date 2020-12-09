@@ -26,41 +26,136 @@ public:
 
 
     Boggle();
-    set<string>& getWords();
+
+
+
+    /*
+     * Creates the lexicon which we use as a dictionary.
+     */
     void makeLexicon();
-    const Lexicon& getDictionary();
-    set<string>& getComputerwords();
-    char getCubes();
-    int getPlayerscore();
-    int getComputerscore();
-    Grid<char>& getCubesides();
-    void setVisitedFalse();
+
+    /*
+     * Set the score to zero. Done before every game
+     * (incase of player wanting to play multiple rounds).
+     */
     void setScoreZero();
 
+    /*
+     * Getter for Words.
+     */
+    set<string>& getWords();
 
-    void printCubes();
+    /*
+     * Getter for dictionary.
+     */
+    const Lexicon& getDictionary();
+
+    /*
+     * Getter for computerwords (the list of words that the computer "guesses").
+     */
+    set<string>& getComputerwords();
+
+    /*
+     * Getter for cubes (dices).
+     */
+    char getCubes();
+
+    /*
+     * Getter for player score.
+     */
+    int getPlayerscore();
+
+    /*
+     * Getter for computer score.
+     */
+    int getComputerscore();
+
+    /*
+     * Getter for cube sides (individual letters, not the whole dice).
+     */
+    Grid<char>& getCubesides();
+
+    /*
+     * Set list of visited to false.
+     */
+    void setVisitedFalse();
+
+    /*
+     * Shuffle the cubes, used to get different random boards each time.
+     */
     void shuffleCubes();
+
+    /*
+     * Converts the side of a cube (dice) to a string and adds them together.
+     * This is then printed in boggleplay.
+     */
     void cubeSide();
+
+    /*
+     * Checks if the player wanted a random board or not. If yes,
+     * it shuffles the cubes.
+     */
     bool boardChoice(string &answer);
+
+    /*
+     * Checks if the answer to the question of randomboard or not
+     * is valid. (Starts with y or n.)
+     */
     bool checkRandomAnswer(string &answer);
+
+    /*
+     * Creates the board that the player put in. It swaps out the letter that
+     * would've been printed from randomboard and uses that same function to print
+     * the custom board.
+     */
     void playersOwnBoard(string &goodboardstring);
+
+    /*
+     * Checks if the board string from the player is valid.
+     */
     int checkBoardString(string &letters);
 
-    void findWordsOnBoard();
-    bool isValidPath(string& word, int row, int col);
-    void explorePaths(string wordSoFar, int row, int col);
-    bool isValidWord(string word);
+    /*
+     * Checks if the input guess from the player is valid.
+     * Is it on board, long enough, not guessed before etc.
+     */
     int wordCheck(string& word);
-    void removeInvalidWords();
+
+    /*
+     * Recursively explores all different paths available given a first letter
+     * (from findWordsOnBoard). If the word is valid, it is added to the computers
+     * list of guessed words.
+     */
+    void explorePaths(string wordSoFar, int row, int col);
+
+    /*
+     * Computers "starter" function for searching for words on the board.
+     */
+    void findWordsOnBoard();
+
+
+
+    /*
+     * Simple checker to make sure the computer word is correct (has lenght > 3, not guessed before etc.).
+     */
+    bool isValidWord(string word);
+
+    /*
+     * Starter function for recursively searching the board to see if a players
+     * guessed word is on the board.
+     */
     bool isOnBoard(string word);
-    //tuple neighbours(char array, int i, int j, int rowSize, int colSize);
+
+    /*
+     * Recursively searches through the board to see if the players input guess
+     * is a valid option on the board.
+     */
+    bool isValidPath(string& word, int row, int col);
 
 
 
-    // TODO: decide the public member functions and declare them
 
 private:
-    // TODO: decide the private member variables/functions and declare them
     char cubes[16][6] = {{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}};
     Lexicon dictionary;
     set<string> words;
