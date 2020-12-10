@@ -50,40 +50,58 @@ vector<Node*> DFSRecursion(BasicGraph& graph, Vertex* start, Vertex* end){
     return path;
 }
 
+vector<Node *> constructPath(map<Node*, Node*> nodeMap, Vertex* node, Vertex* originNode){
+    Vertex* currentNode = node;
+    vector<Node*> path;
+    path.push_back(currentNode);
+    while(nodeMap.at(currentNode) != originNode){
+        path.insert(path.begin(), nodeMap.at(currentNode));
+        currentNode = nodeMap.at(currentNode);
+    }
+    path.insert(path.begin(), originNode);
+
+    return path;
+}
+
 
 vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
-    queue nodeQueue;
+    graph.resetData();
+
+    queue<Node *> nodeQueue;
     nodeQueue.push(start);
-    start->visited = True;
+    map<Node*, Node*> nodeMap;
+    Vertex* neighbour;
+    vector<Vertex*> path;
 
     while(!nodeQueue.empty()){
-        queue nodeQueue2;
         Vertex* node = nodeQueue.front();
         nodeQueue.pop();
         node->visited = true;
-        if (node == end) {
+        node->setColor(GREEN);
+        if(node == end){
+            path = constructPath(nodeMap, node, start);
             break;
-            //stop
-        }
-        //kolla om det är end, annars ->
-        //lägg till dess grannar i kön
-    }
-
-    for(auto arc : start->arcs){
-        if(!arc->visited){
-            arc->visited = true;
-            if(arc->finish != start){
-                node = arc->finish;
-            }else{
-                node = arc->start;
+        } else {
+            for(auto arc : node->arcs){
+                if(!arc->visited){
+                    arc->visited = true;
+                    if(arc->finish != start){
+                        neighbour = arc->finish;
+                    }else{
+                        neighbour = arc->start;
+                    }
+                    if(!neighbour->visited){
+                        neighbour->setColor(YELLOW);
+                        nodeQueue.push(neighbour);
+                        nodeMap.insert(pair<Node*, Node*>(neighbour, node));
+                    }
+                }
             }
+
         }
-    }
-
-
-    vector<Vertex*> path;
-    return path;
+    }    return path;
 }
+
 
 vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end) {
     // TODO: implement this function; remove these comments
