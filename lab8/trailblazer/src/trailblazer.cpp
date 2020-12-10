@@ -57,8 +57,14 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
     start->visited = True;
 
     while(!nodeQueue.empty()){
+        queue nodeQueue2;
         Vertex* node = nodeQueue.front();
         nodeQueue.pop();
+        node->visited = true;
+        if (node == end) {
+            break;
+            //stop
+        }
         //kolla om det är end, annars ->
         //lägg till dess grannar i kön
     }
