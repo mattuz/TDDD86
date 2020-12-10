@@ -16,6 +16,8 @@
 #include "BasicGraph.h"
 
 vector<Node*> depthFirstSearch(BasicGraph& graph, Node* start, Node* end);
+vector<Node*> DFSRecursion(BasicGraph& graph, Vertex* start, Vertex* end);
+
 vector<Node*> breadthFirstSearch(BasicGraph& graph, Node* start, Node* end);
 vector<Node*> dijkstrasAlgorithm(BasicGraph& graph, Node* start, Node* end);
 vector<Node*> aStar(BasicGraph& graph, Node* start, Node* end);
