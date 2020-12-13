@@ -15,12 +15,41 @@
 #include <vector>
 #include "BasicGraph.h"
 
+/*
+ * Searches through the graph using the DFS algorithm.
+ */
 vector<Node*> depthFirstSearch(BasicGraph& graph, Node* start, Node* end);
+
+/*
+ * Performs the DFS recursion that is used to construct a path from start to end.
+ */
 vector<Node*> DFSRecursion(BasicGraph& graph, Vertex* start, Vertex* end);
 
-vector<Node*> breadthFirstSearch(BasicGraph& graph, Node* start, Node* end);
+/*
+ * Returns a path for the BFS algorithm.
+ */
 vector<Node*> constructPath(map<Node*, Node*> nodeMap, Vertex* node);
+
+/*
+ * Searches through the graph using the BFS algorithm.
+ */
+vector<Node*> breadthFirstSearch(BasicGraph& graph, Node* start, Node* end);
+
+/*
+ * Searches through the graph using Dijkstras search algorithm.
+ */
 vector<Node*> dijkstrasAlgorithm(BasicGraph& graph, Node* start, Node* end);
+
+/*
+ * Searches through the graph using the A* search algorithm.
+ */
 vector<Node*> aStar(BasicGraph& graph, Node* start, Node* end);
+
+/*
+ * Constructs a path given the end and start node. Goes from end->previous
+ * to start, then returns the path.
+ */
+vector<Node*> backtrackPath(Vertex* start, Vertex* end);
+
 
 #endif
