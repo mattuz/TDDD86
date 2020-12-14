@@ -30,4 +30,6 @@
 
 Brute: O(N⁴) vid värstafallstiden ty det är 4 for-loopar i varandra. 
 
-Sortering: O(N³) ty 3 for-loopar i varandra.
+Sortering: O(N²log(n)). Vi har 3 for-loopar i fast, där två av dem går igenom en vektor med points (N*N tid)och den tredje undersöker hur många linjer vi kan rita upp. Den sistnämnda beror på hur många punkter vi hittar som är linjärt beroende, vilket inte påverkar tiden det tar för själva algoritmen att få fram dessa punkter.
+
+Vi lägger in de punkter vi undersöker, tillsammans med lutningen mellan dem, i en map. Eftersom map är sorterad tar det log(n) tid att söka igenom och lägga in nya värden, vilket ger oss den totala värstafallstiden ovan. 

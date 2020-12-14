@@ -14,12 +14,15 @@
 #include <chrono>
 #include "Point.h"
 #include <map>
+#include <set>
 // constants
 static const int SCENE_WIDTH = 512;
 static const int SCENE_HEIGHT = 512;
 
 void fast(Point point, vector<Point>& points);
 map<double, vector<Point>> slopes;
+map<Point, set<double>> linechecker;
+
 
 void render_points(QGraphicsScene* scene, const vector<Point>& points) {
     for(const auto& point : points) {
@@ -35,7 +38,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input300.txt";
+    string filename = "input6400.txt";
     ifstream input;
     input.open(filename);
 
@@ -70,36 +73,60 @@ int main(int argc, char *argv[]) {
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
     auto begin = chrono::high_resolution_clock::now();
+
     vector<Point> pointsCopy = points;
     for(auto point : points){ //O(N)
         if(points.size() > 0){
             fast(point, pointsCopy);
             pointsCopy.erase(pointsCopy.begin());
 
-            for(auto pair : slopes){
-                if(pair.second.size() > 3){
+            for(auto pairs : slopes){
+                if(pairs.second.size() > 3){
 
 
-                    cout << pair.first<< ": ";
-                    for(unsigned int i = 0; i<pair.second.size()-1; i++){
-                        cout<<pair.second[i]<< " ";
-                        render_line(scene, pair.second[i], pair.second[i+1]);
-                        a.processEvents(); // show rendered line
+                    cout << pairs.first<< ": ";
+                    for(unsigned int i = 0; i<pairs.second.size()-1; i++){
+                        cout<<pairs.second[i]<< " ";
+
+                        set<double> s; //E8 tillsammans med nedan.
+                        linechecker.insert(pair<Point, set<double>>(pairs.second[i], s));
+
+                        if (linechecker.at(pairs.second[i]).count(pairs.first) == 0) { //E8
+                            cout << "Ritas!" << endl;
+                            render_line(scene, pairs.second[i], pairs.second[i+1]);
+                            a.processEvents(); // show rendered line
+                        }
+
+
+
+                        if(linechecker.count(pairs.second[i]) == 1) { //E8
+                            linechecker.at(pairs.second[i]).insert(pairs.first);
+                        }
+
                     }
-                    cout<<pair.second[pair.second.size()-1]<< " ";
+                    if (linechecker.count(pairs.second[pairs.second.size()-1]) == 1){ //E8 nedan (if/else).
+                        linechecker.at(pairs.second[pairs.second.size()-1]).insert(pairs.first);
+                    } else {
+                        set<double> s;
+                        s.insert(pairs.first);
+                        linechecker.insert(pair<Point, set<double>>(pairs.second[pairs.second.size()-1], s));
+                    }
+                    //Ritad.
+                    cout<<pairs.second[pairs.second.size()-1]<< " ";
                     cout<<endl;
                 }
             }
             slopes.clear();
            }
+
     }
 
 // The following code is the original brute.
 
-/*
+
 
     // iterate through all combinations of 4 points
-    for (int i = 0 ; i < N-3 ; ++i) {
+    /*for (int i = 0 ; i < N-3 ; ++i) {
         for (int j = i+1 ; j < N-2 ; ++j) {
             for (int k = j+1 ; k < N-1 ; ++k) {
                 //only consider fourth point if first three are collinear
@@ -113,8 +140,8 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
-    //*/
+    }*/
+
 
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
@@ -130,8 +157,7 @@ void fast(Point point, vector<Point>& points){
         if(slope != -std::numeric_limits<double>::infinity()){
             if(slopes.count(slope) == 1){
                 slopes.at(slope).push_back(p);
-
-            }else {
+            } else {
                 vector<Point> v;
                 v.push_back(p);
                 slopes.insert(pair<double, vector<Point>>(slope, v));
