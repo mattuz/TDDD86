@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input100.txt";
+    string filename = "input300.txt";
     ifstream input;
     input.open(filename);
 
@@ -70,7 +70,6 @@ int main(int argc, char *argv[]) {
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
     auto begin = chrono::high_resolution_clock::now();
-//*
     vector<Point> pointsCopy = points;
     for(auto point : points){ //O(N)
         if(points.size() > 0){
@@ -80,16 +79,22 @@ int main(int argc, char *argv[]) {
             for(auto pair : slopes){
                 if(pair.second.size() > 3){
 
+
+                    cout << pair.first<< ": ";
                     for(unsigned int i = 0; i<pair.second.size()-1; i++){
+                        cout<<pair.second[i]<< " ";
                         render_line(scene, pair.second[i], pair.second[i+1]);
                         a.processEvents(); // show rendered line
                     }
+                    cout<<pair.second[pair.second.size()-1]<< " ";
+                    cout<<endl;
                 }
             }
             slopes.clear();
            }
     }
 
+// The following code is the original brute.
 
 /*
 
@@ -125,7 +130,8 @@ void fast(Point point, vector<Point>& points){
         if(slope != -std::numeric_limits<double>::infinity()){
             if(slopes.count(slope) == 1){
                 slopes.at(slope).push_back(p);
-            } else {
+
+            }else {
                 vector<Point> v;
                 v.push_back(p);
                 slopes.insert(pair<double, vector<Point>>(slope, v));

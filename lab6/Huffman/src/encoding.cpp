@@ -1,12 +1,4 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own, along with
-// comments on every function and on complex code sections.
-// TODO: remove this comment header
-
 #include "encoding.h"
-
-string stringOfBinaries = "";
-
 
 map<int, int> buildFrequencyTable(istream& input) {
     map<int, int> freqTable;
@@ -55,34 +47,33 @@ HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
 
 map<int, string> buildEncodingMap(HuffmanNode*& encodingTree) {
     map<int, string> encodingMap;
+    string stringOfBinaries = "";
+
+    return encodingMapRecursion(encodingTree, encodingMap, stringOfBinaries);
+}
+
+map<int, string> encodingMapRecursion(HuffmanNode*& encodingTree, map<int, string>& encodingMap, string& stringOfBinaries){
 
     if (encodingTree->isLeaf()) {
         encodingMap.insert(pair<int, string>(encodingTree->character, stringOfBinaries));
     }
 
-    else if (!encodingTree->isLeaf()) {
+    else if (!encodingTree->isLeaf()) { //Kan skrivas som else
         if (encodingTree->zero != nullptr) { //Vänster
             stringOfBinaries += "0";
-            encodingMap = mergeMaps(encodingMap, buildEncodingMap(encodingTree->zero));
+            encodingMap = encodingMapRecursion(encodingTree->zero, encodingMap, stringOfBinaries);
             stringOfBinaries.erase(stringOfBinaries.size()-1);
         }
         if (encodingTree->one != nullptr) { //Höger
             stringOfBinaries += "1";
-            encodingMap = mergeMaps(encodingMap, buildEncodingMap(encodingTree->one));
+            encodingMap = encodingMapRecursion(encodingTree->one, encodingMap, stringOfBinaries);
             stringOfBinaries.erase(stringOfBinaries.size()-1);
         }
 
     }
-
     return encodingMap;
 }
 
-map<int, string> mergeMaps(map<int, string> m1, map<int, string> m2) {
-    for (auto x : m2) {
-        m1.insert(x);
-    }
-    return m1;
-}
 
 void encodeData(istream& input, const map<int, string> &encodingMap, obitstream& output) {
     char c;
@@ -217,15 +208,13 @@ void decompress(ibitstream& input, ostream& output) {
     freeTree(encodingTree);
 }
 
-void freeTree(HuffmanNode* node) {
+void freeTree(HuffmanNode* node) { //förenkla, node ska alltid deletas
+
     if (node->zero == nullptr && node->one == nullptr) {
         delete node;
     } else {
-        if (node->zero != nullptr) {
-            freeTree(node->zero);
-        }
-        if (node->one != nullptr) {
-            freeTree(node->one);
-        }
+        freeTree(node->zero);
+        freeTree(node->one);
+        delete node;
     }
 }
