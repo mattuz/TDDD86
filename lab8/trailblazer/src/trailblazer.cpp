@@ -69,6 +69,7 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
 
     queue<Node *> nodeQueue;
     nodeQueue.push(start);
+    start->visited = true;
     map<Node*, Node*> nodeMap;
     Vertex* neighbour;
     vector<Vertex*> path;
@@ -76,7 +77,6 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
     while(!nodeQueue.empty()){
         Vertex* node = nodeQueue.front();
         nodeQueue.pop();
-        node->visited = true;
         node->setColor(GREEN);
         if(node == end){
             path = constructPath(nodeMap, node, start);
@@ -91,8 +91,8 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
                         neighbour = arc->start;
                     }
                     if(!neighbour->visited){
-                        //neighbour->previous = node;
                         neighbour->setColor(YELLOW);
+                        neighbour->visited = true;
                         nodeQueue.push(neighbour);
                         nodeMap.insert(pair<Node*, Node*>(neighbour, node));
                     }
