@@ -56,6 +56,12 @@ void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output);
  */
 void compress(istream& input, obitstream& output);
 
+
+string treeSeq(HuffmanNode* encodingTree);
+
+void treeSeqRecursion(HuffmanNode* encodingTree, string& sequence);
+
+
 /*
  * Decodes the input, using the frequency table in its header.
  * Input is bits of zeros and ones, output is characters.

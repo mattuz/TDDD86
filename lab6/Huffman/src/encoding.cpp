@@ -131,6 +131,7 @@ void compress(istream& input, obitstream& output) {
     freqTable = buildFrequencyTable(input);
     encodingTree = buildEncodingTree(freqTable);
     encodingMap = buildEncodingMap(encodingTree);
+
     output.put('{');
 
     for (auto x : freqTable) {
@@ -138,10 +139,8 @@ void compress(istream& input, obitstream& output) {
         for (unsigned int i = 0; i < first.size(); i++) {
             output.put(first[i]);
         }
-
         i++;
         output.put(':');
-
         string second = to_string(x.second);
         for (unsigned int i = 0; i < second.size(); i++) {
             output.put(second[i]);
@@ -156,12 +155,42 @@ void compress(istream& input, obitstream& output) {
     input.clear();
     input.seekg(0, ios::beg);
     encodeData(input, encodingMap, output);
+    string pop = treeSeq(encodingTree);
+    cout << pop;
+    cout << endl;
     freeTree(encodingTree);
 
 
 }
 
+string treeSeq(HuffmanNode* encodingTree) {
+    string s = "";
+    treeSeqRecursion(encodingTree, s);
+    return s;
+}
 
+void treeSeqRecursion(HuffmanNode* encodingTree, string& sequence) {
+
+    //cout << sequence;
+    if (encodingTree == nullptr) {
+        sequence += "/";
+    } else {
+        if(encodingTree->character != NOT_A_CHAR) {
+            sequence += "(0)";
+            sequence += encodingTree->character;
+        } else {
+            sequence += "(1)";
+        }
+
+        treeSeqRecursion(encodingTree->zero, sequence);
+        treeSeqRecursion(encodingTree->one, sequence);
+    }
+
+
+}
+
+//{}
+//[]
 
 
 void decompress(ibitstream& input, ostream& output) {
