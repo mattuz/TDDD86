@@ -83,37 +83,12 @@ int main(int argc, char *argv[]) {
             for(auto pairs : slopes){
                 if(pairs.second.size() > 3){
 
-
-                    cout << pairs.first<< ": ";
                     for(unsigned int i = 0; i<pairs.second.size()-1; i++){
-                        cout<<pairs.second[i]<< " ";
 
-                        set<double> s; //E8 tillsammans med nedan.
-                        linechecker.insert(pair<Point, set<double>>(pairs.second[i], s));
-
-                        if (linechecker.at(pairs.second[i]).count(pairs.first) == 0) { //E8
-                            cout << "Ritas!" << endl;
                             render_line(scene, pairs.second[i], pairs.second[i+1]);
                             a.processEvents(); // show rendered line
-                        }
-
-
-
-                        if(linechecker.count(pairs.second[i]) == 1) { //E8
-                            linechecker.at(pairs.second[i]).insert(pairs.first);
-                        }
-
                     }
-                    if (linechecker.count(pairs.second[pairs.second.size()-1]) == 1){ //E8 nedan (if/else).
-                        linechecker.at(pairs.second[pairs.second.size()-1]).insert(pairs.first);
-                    } else {
-                        set<double> s;
-                        s.insert(pairs.first);
-                        linechecker.insert(pair<Point, set<double>>(pairs.second[pairs.second.size()-1], s));
-                    }
-                    //Ritad.
-                    cout<<pairs.second[pairs.second.size()-1]<< " ";
-                    cout<<endl;
+
                 }
             }
             slopes.clear();
