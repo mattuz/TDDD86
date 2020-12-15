@@ -57,9 +57,9 @@ void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output);
 void compress(istream& input, obitstream& output);
 
 
-string treeSeq(HuffmanNode* encodingTree);
+void treeSeq(HuffmanNode* encodingTree, obitstream& output);
 
-void treeSeqRecursion(HuffmanNode* encodingTree, string& sequence);
+HuffmanNode* readHeaderTree(ibitstream& input);
 
 
 /*
