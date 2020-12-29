@@ -22,7 +22,7 @@ HuffmanNode* buildEncodingTree(const map<int, int> &freqTable) {
     auto compare = [](HuffmanNode* a, HuffmanNode* b) { return *a < *b; };
     priority_queue<HuffmanNode*, vector<HuffmanNode*>, decltype(compare)> nodequeue(compare);
     HuffmanNode* node;
-    HuffmanNode* root;
+    HuffmanNode* root = new HuffmanNode;
 
     for(auto& pair: freqTable){
         node = new HuffmanNode(get<0>(pair), get<1>(pair), nullptr, nullptr); //ev behövs inte nullptr skrivas ut
@@ -103,7 +103,6 @@ void encodeData(istream& input, const map<int, string> &encodingMap, obitstream&
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
     HuffmanNode* node = encodingTree;
     int bit = input.readBit();
-
     while(bit != -1) {
         if (bit == 0) {
             node = node->zero;
@@ -123,7 +122,6 @@ void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
 }
 
 void compress(istream& input, obitstream& output) {
-    unsigned int i = 0;
     map<int, int> freqTable;
     HuffmanNode* encodingTree;
     map<int, string> encodingMap;
@@ -147,9 +145,11 @@ void treeSeq(HuffmanNode* encodingTree, obitstream& output) {
         if(encodingTree->character == NOT_A_CHAR) {
             output.writeBit(0);
         } else if (encodingTree->character == PSEUDO_EOF) {
-            output.put(PSEUDO_EOF);
+            output.writeBit(1);
+            output.put('b'); // detta är fallet då det är EOF, hittar den 'b' så ska den skriva ut EOF.
         } else {
             output.writeBit(1);
+            output.put('a');
             output.put(encodingTree->character);
         }
         treeSeq(encodingTree->zero, output);
@@ -159,15 +159,29 @@ void treeSeq(HuffmanNode* encodingTree, obitstream& output) {
 
 
 HuffmanNode* readHeaderTree(ibitstream& input) {
-    HuffmanNode* node;
-    if (input.readBit() == 0) {
+    HuffmanNode* node = new HuffmanNode;
+    int savedBit = input.readBit();
+    if (savedBit == 0) {
+        node->character = NOT_A_CHAR;
         node->zero = readHeaderTree(input);
         node->one = readHeaderTree(input);
-    } /*else if (input.readBit() == -1) {
-        node->character = PSEUDO_EOF;
-    }*/ else {
-            node->character = input.get();
+    } else if(savedBit == 1) {
+        char savedInput = input.get();
+        if (savedInput == 'b') {
+            node->character = PSEUDO_EOF;
+            input.get(); //Dessa och de nedan behövs för att inte fastna i null-barnen ("/").
+            input.get();
+            node->zero = nullptr; //Dessa för att isLeaf() ska fungera.
+            node->one = nullptr;
         }
+        else if (savedInput == 'a') {
+            node->character = input.get();
+            input.get();
+            input.get();
+            node->zero = nullptr;
+            node->one = nullptr;
+        }
+    }
     return node;
 }
 
@@ -179,7 +193,6 @@ void decompress(ibitstream& input, ostream& output) {
     string value;
 
     encodingTree = readHeaderTree(input);
-
     decodeData(input, encodingTree, output);
     freeTree(encodingTree);
 }
