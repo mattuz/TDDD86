@@ -140,16 +140,16 @@ void compress(istream& input, obitstream& output) {
 }
 void treeSeq(HuffmanNode* encodingTree, obitstream& output) {
     if (encodingTree == nullptr) {
-        output.put('/');
+        //output.put('/');      // Behövs inte för att representera barn då vi vet att bit = 1 är löv.
     } else {
         if(encodingTree->character == NOT_A_CHAR) {
             output.writeBit(0);
         } else if (encodingTree->character == PSEUDO_EOF) {
             output.writeBit(1);
-            output.put('b'); // detta är fallet då det är EOF, hittar den 'b' så ska den skriva ut EOF.
+            output.writeBit(0); // detta är fallet då det är EOF, hittar den 0 så ska den skriva ut EOF.
         } else {
             output.writeBit(1);
-            output.put('a');
+            output.writeBit(1);
             output.put(encodingTree->character);
         }
         treeSeq(encodingTree->zero, output);
@@ -166,18 +166,14 @@ HuffmanNode* readHeaderTree(ibitstream& input) {
         node->zero = readHeaderTree(input);
         node->one = readHeaderTree(input);
     } else if(savedBit == 1) {
-        char savedInput = input.get();
-        if (savedInput == 'b') {
+        char savedInput = input.readBit();
+        if (savedInput == 0) {
             node->character = PSEUDO_EOF;
-            input.get(); //Dessa och de nedan behövs för att inte fastna i null-barnen ("/").
-            input.get();
             node->zero = nullptr; //Dessa för att isLeaf() ska fungera.
             node->one = nullptr;
         }
-        else if (savedInput == 'a') {
+        else if (savedInput == 1) {
             node->character = input.get();
-            input.get();
-            input.get();
             node->zero = nullptr;
             node->one = nullptr;
         }
